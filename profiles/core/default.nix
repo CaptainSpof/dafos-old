@@ -15,30 +15,18 @@ in
       direnv
       dnsutils
       dosfstools
-      fd
       git
-      bottom
       gptfdisk
       iputils
-      jq
       manix
       moreutils
       nix-index
       nmap
-      ripgrep
-      skim
-      tealdeer
       usbutils
       utillinux
       whois
     ];
 
-    shellInit = ''
-      export STARSHIP_CONFIG=${
-        pkgs.writeText "starship.toml"
-        (fileContents ./starship.toml)
-      }
-    '';
 
     shellAliases =
       let ifSudo = lib.mkIf config.security.sudo.enable;

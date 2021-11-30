@@ -7,8 +7,8 @@
 
   inputs =
     {
-      nixos.url = "github:nixos/nixpkgs/release-21.05";
-      latest.url = "github:nixos/nixpkgs/nixos-unstable";
+      nixos.url = "github:nixos/nixpkgs/nixos-unstable";
+      latest.url = "github:nixos/nixpkgs/master";
 
       digga.url = "github:divnix/digga";
       digga.inputs.nixpkgs.follows = "nixos";
@@ -19,7 +19,7 @@
       bud.inputs.nixpkgs.follows = "nixos";
       bud.inputs.devshell.follows = "digga/devshell";
 
-      home.url = "github:nix-community/home-manager/release-21.05";
+      home.url = "github:nix-community/home-manager";
       home.inputs.nixpkgs.follows = "nixos";
 
       darwin.url = "github:LnL7/nix-darwin";
@@ -123,7 +123,11 @@
               users = digga.lib.rakeLeaves ./users;
             };
             suites = with profiles; rec {
-              base = [ core users.nixos users.root ];
+              base = [ core users.daf users.nixos users.root ];
+              cli-base = [ cli ];
+              plasma = [ desktop.plasma ];
+              # workstation = [ base cli-base ];
+              workstation = [ base plasma cli-base ];
             };
           };
         };
