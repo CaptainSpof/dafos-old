@@ -34,10 +34,11 @@ in
 
     programs.zsh = {
         enable = true;
-        dotDir = ".config/zsh";
         autosuggestions.enable = true;
         enableCompletion = true;
     };
+
+    programs.zsh.dotDir = ".config/zsh";
 
     environment = {
         shellInit = ''
@@ -51,8 +52,8 @@ in
     # go directly to dir, do not pass GO, do not collect 200$ 🦀
     # programs.zoxide = {
     #     enable = true;
-    #     enableZshIntegration = true;
-    #     options = [ "--cmd=c" ];
+        # enableZshIntegration = true;
+        # options = [ "--cmd=c" ];
     # };
 
 }
