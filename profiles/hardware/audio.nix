@@ -40,6 +40,6 @@ in {
           "${paConfigFile}/default.pa";
     };
 
-    users.users.daf.extraGroups = [ "audio" ];
+    # users.users.daf.extraGroups = [ "audio" ];
   };
 }

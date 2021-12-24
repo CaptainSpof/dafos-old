@@ -32,28 +32,13 @@ in
         # zoxide              # go directly to dir, do not pass GO, do not collect 200$ 🦀
     ];
 
-    programs.zsh = {
-        enable = true;
-        autosuggestions.enable = true;
-        enableCompletion = true;
-    };
-
-    programs.zsh.dotDir = ".config/zsh";
-
-    environment = {
-        shellInit = ''
-      export STARSHIP_CONFIG=${
-                         pkgs.writeText "starship.toml"
-                             (fileContents ./starship.toml)
-                     }
-    '';
-    };
-
-    # go directly to dir, do not pass GO, do not collect 200$ 🦀
-    # programs.zoxide = {
-    #     enable = true;
-        # enableZshIntegration = true;
-        # options = [ "--cmd=c" ];
+    # environment = {
+    #     shellInit = ''
+    #   export STARSHIP_CONFIG=${
+    #                      pkgs.writeText "starship.toml"
+    #                          (fileContents ./starship.toml)
+    #                  }
+    # '';
     # };
 
 }

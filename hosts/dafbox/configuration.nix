@@ -36,12 +36,12 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Configure keymap in X11
-    services.xserver = {
-      layout = "fr";
-      xkbVariant = "bepo";
-      # TODO: find a way to replace caps lock with ctrl (not swapping). Also, single press should be esc.
-      xkbOptions = "caps:escape";
-    };
+  services.xserver = {
+    layout = "fr";
+    xkbVariant = "bepo";
+    # TODO: find a way to replace caps lock with ctrl (not swapping). Also, single press should be esc.
+    xkbOptions = "caps:escape";
+  };
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable CUPS to print documents.
