@@ -1,45 +1,64 @@
-{
-  programs.git = {
-    enable = true;
+{options, config, lib, ... }:
 
-    extraConfig = {
-      pull.rebase = false;
+with lib;
+let cfg = config.users.git;
+in {
+  options.users.git = {
+    user.name = mkOption {
+      type = types.str;
+      default = "CaptainSpof";
     };
+    user.email = mkOption {
+      type = types.str;
+      default = "captain.spof@gmail.com";
+    };
+  };
+  config = {
+    programs.git = {
+      enable = true;
 
-    aliases = {
-      a = "add -p";
-      co = "checkout";
-      cob = "checkout -b";
-      f = "fetch -p";
-      c = "commit";
-      p = "push";
-      ba = "branch -a";
-      bd = "branch -d";
-      bD = "branch -D";
-      d = "diff";
-      dc = "diff --cached";
-      ds = "diff --staged";
-      r = "restore";
-      rs = "restore --staged";
-      st = "status -sb";
+      userEmail = cfg.user.email;
+      userName = cfg.user.name;
 
-      # reset
-      soft = "reset --soft";
-      hard = "reset --hard";
-      s1ft = "soft HEAD~1";
-      h1rd = "hard HEAD~1";
+      extraConfig = {
+        pull.rebase = false;
+      };
 
-      # logging
-      lg =
-        "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
-      plog =
-        "log --graph --pretty='format:%C(red)%d%C(reset) %C(yellow)%h%C(reset) %ar %C(green)%aN%C(reset) %s'";
-      tlog =
-        "log --stat --since='1 Day Ago' --graph --pretty=oneline --abbrev-commit --date=relative";
-      rank = "shortlog -sn --no-merges";
+      aliases = {
+        a = "add -p";
+        co = "checkout";
+        cob = "checkout -b";
+        f = "fetch -p";
+        c = "commit";
+        p = "push";
+        ba = "branch -a";
+        bd = "branch -d";
+        bD = "branch -D";
+        d = "diff";
+        dc = "diff --cached";
+        ds = "diff --staged";
+        r = "restore";
+        rs = "restore --staged";
+        st = "status -sb";
 
-      # delete merged branches
-      bdm = "!git branch --merged | grep -v '*' | xargs -n 1 git branch -d";
+        # reset
+        soft = "reset --soft";
+        hard = "reset --hard";
+        s1ft = "soft HEAD~1";
+        h1rd = "hard HEAD~1";
+
+        # logging
+        lg =
+          "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+        plog =
+          "log --graph --pretty='format:%C(red)%d%C(reset) %C(yellow)%h%C(reset) %ar %C(green)%aN%C(reset) %s'";
+        tlog =
+          "log --stat --since='1 Day Ago' --graph --pretty=oneline --abbrev-commit --date=relative";
+        rank = "shortlog -sn --no-merges";
+
+        # delete merged branches
+        bdm = "!git branch --merged | grep -v '*' | xargs -n 1 git branch -d";
+      };
     };
   };
 }
