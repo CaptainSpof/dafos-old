@@ -137,8 +137,13 @@ in
   # For rage encryption, all hosts need a ssh key pair
   services.openssh = {
     enable = true;
+    challengeResponseAuthentication = false;
+    passwordAuthentication = false;
     openFirewall = lib.mkDefault false;
   };
+
+  programs.ssh.startAgent = true;
+  services.openssh.startWhenNeeded = true;
 
   services.earlyoom.enable = true;
 
