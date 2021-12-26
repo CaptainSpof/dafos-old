@@ -6,22 +6,6 @@
         zoxide
       ];
 
-      programs.ssh = {
-        enable = true;
-
-	matchBlocks = {
-	  "github.com" = {
-	    hostname = "github.com";
-	    identityFile = "~/.ssh/daf@dafpi.pem";
-	  };
-	"daftop" = {
-	  hostname = "daftop";
-	  user = "daf";
-	  identityFile = "~/.ssh/daf@dafpi.pem";
-	};
-	};
-      };
-
       programs.fzf = {
         enable = true;
         enableBashIntegration = true;
@@ -45,7 +29,7 @@
         shellAliases = with pkgs; {
           ls = "exa";
           l = "exa -lah";
-	  ll = "exa -lah";
+          ll = "exa -lah";
           la = "ls -la";
           f = "rg --files";
           E = "env SUDO_EDITOR=\"emacsclient\" sudo -e";
