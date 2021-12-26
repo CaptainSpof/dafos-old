@@ -139,11 +139,10 @@ in
     enable = true;
     challengeResponseAuthentication = false;
     passwordAuthentication = false;
-    openFirewall = lib.mkDefault false;
+    startWhenNeeded = true;
   };
 
   programs.ssh.startAgent = true;
-  services.openssh.startWhenNeeded = true;
 
   services.earlyoom.enable = true;
 
