@@ -22,6 +22,7 @@ in
       moreutils
       nix-index
       nmap
+      neovim
       usbutils
       utillinux
       whois
@@ -84,6 +85,8 @@ in
         dn = ifSudo "s systemctl stop";
         jtl = "journalctl";
 
+        # vim
+        vim = "nvim";
       };
   };
 
