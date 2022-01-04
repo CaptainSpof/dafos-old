@@ -15,14 +15,20 @@ in
       direnv
       dnsutils
       dosfstools
+      fd
       git
+      bottom
       gptfdisk
       iputils
+      jq
       manix
       moreutils
       nix-index
       nmap
       neovim
+      ripgrep
+      skim
+      tealdeer
       usbutils
       utillinux
       whois
@@ -85,8 +91,6 @@ in
         dn = ifSudo "s systemctl stop";
         jtl = "journalctl";
 
-        # vim
-        vim = "nvim";
       };
   };
 
@@ -137,9 +141,9 @@ in
   # For rage encryption, all hosts need a ssh key pair
   services.openssh = {
     enable = true;
-    challengeResponseAuthentication = false;
     passwordAuthentication = false;
     startWhenNeeded = true;
+    openFirewall = lib.mkDefault true;
   };
 
   programs.ssh.startAgent = true;
