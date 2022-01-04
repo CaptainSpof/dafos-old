@@ -110,7 +110,7 @@
             users = digga.lib.rakeLeaves ./users;
           };
           suites = with profiles; rec {
-            base = [ core cli.common users.daf users.steeve ];
+            base = [ core cli.common users.daf ];
             plasma = [ desktop.plasma ];
             workstation = [ base plasma ];
           };
@@ -123,14 +123,12 @@
         importables = rec {
           profiles = digga.lib.rakeLeaves ./users/profiles;
           suites = with profiles; rec {
-            base = [ direnv git zoxide zsh starship ];
+            base = [ direnv git ssh starship zoxide zsh ];
             graphical = [ alacritty ];
           };
         };
         users = {
-          # nixos = { suites, ... }: { imports = suites.base; };
           daf = { suites, ... }: { imports = suites.base; };
-          steeve = { suites, ... }: { imports = suites.base; };
         }; # digga.lib.importers.rakeLeaves ./users/hm;
       };
 

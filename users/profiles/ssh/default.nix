@@ -10,6 +10,11 @@
         hostname = "github.com";
         identityFile = "~/.ssh/daf@dafpi.pem";
       };
+      "dafbox" = {
+        hostname = "dafbox";
+        user = "daf";
+        identityFile = "~/.ssh/daf@dafpi.pem";
+      };
       "daftop" = {
         hostname = "daftop";
         user = "daf";
