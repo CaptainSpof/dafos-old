@@ -14,7 +14,7 @@ to easily setup those secret files declaratively.
 [agenix][agenix] encrypts secrets and stores them as .age files in your repository.
 Age files are encrypted with multiple ssh public keys, so any host or user with a
 matching ssh private key can read the data. The [age module][age module] will add those
-encrypted files to the nix store and decrypt them on activation to `/run/secrets`.
+encrypted files to the nix store and decrypt them on activation to `/run/agenix`.
 
 ### Setup
 All hosts must have openssh enabled, this is done by default in the core profile.
@@ -90,7 +90,7 @@ In any profile that uses a NixOS module that requires a secret you can enable a 
 ```
 
 
-Then you can just pass the path `/run/secrets/mysecret` to the module.
+Then you can just pass the path `/run/agenix/mysecret` to the module.
 
 You can make use of the many options provided by the age module to customize where and how
 secrets get decrypted. You can learn about them by looking at the
