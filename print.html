@@ -162,7 +162,9 @@ expected. There are unstable versions (0.<em>x</em>.<em>x</em>) to help users ke
 of changes and progress, and a <a href="https://github.com/divnix/devos/tree/develop"><code>develop</code></a> branch for the brave 😜</p>
 <h2 id="in-the-wild"><a class="header" href="#in-the-wild">In the Wild</a></h2>
 <ul>
-<li>The original <a href="https://github.com/nrdxp/devos/tree/nrd">authors</a></li>
+<li>@Pacman99: <a href="https://gitlab.com/coffeetables/lower">Personal</a>, <a href="https://gitlab.com/coffeetables/myrdd">Server</a></li>
+<li><a href="https://github.com/danielphan2003/flk">@danielphan2003</a> and make sure to also check out <a href="https://github.com/divnix/devos-ext-lib">devos-ext-lib</a></li>
+<li><a href="https://git.sr.ht/%7Eb12f/pub-solar-os">PubSolarOS</a></li>
 </ul>
 <h2 id="shoulders"><a class="header" href="#shoulders">Shoulders</a></h2>
 <p>This work does not reinvent the wheel. It stands on the <a href="https://en.wikipedia.org/wiki/Standing_on_the_shoulders_of_giants">shoulders of the
@@ -190,12 +192,13 @@ following giants</a>:</p>
 <li><a href="https://github.com/numtide/devshell">devshell</a></li>
 </ul>
 <h2 id="divnix"><a class="header" href="#divnix">Divnix</a></h2>
-<p>The divnix org is an open space that spontaniously formed out of &quot;the Nix&quot;.
-It is really just a place where otherwise unrelated people a) get
-together and b) stuff done.</p>
-<p>It's a place to stop &quot;geeking out in isolation&quot; (or within company boundaries),
-experiment and learn together and iterate quickly on best practices. That's what it is.</p>
-<p>It might eventually become a non-profit if that's not too complicated or if those
+<p>The divnix org is an open space that spontaneously formed out of &quot;the Nix&quot;.
+It is really just a place where otherwise unrelated people work
+together and get stuff done.</p>
+<p>It's a place to stop &quot;geeking out in isolation&quot; (or within company boundaries).
+A place to experiment, learn together, and iterate quickly on best practices.
+That's what it is.</p>
+<p>It might eventually become a non-profit if that's not too complicated or, if those
 goals are sufficiently upstreamed into &quot;the Nix&quot;, dissolved.</p>
 <h1 id="license"><a class="header" href="#license">License</a></h1>
 <p>DevOS is licensed under the <a href="https://mit-license.org">MIT License</a>.</p>
@@ -548,8 +551,9 @@ Home Manager.
 User profiles can be collected in a similar fashion as system ones into a <code>suites</code>
 argument that gets passed to your home-manager users.</p>
 <h3 id="example-2"><a class="header" href="#example-2">Example</a></h3>
+<p><code>flake.nix</code></p>
 <pre><code class="language-nix">{
-  home-manager.users.nixos = { suites, ... }: {
+  home.users.nixos = { suites, ... }: {
     imports = suites.base;
   };
 }
@@ -766,7 +770,7 @@ to easily setup those secret files declaratively.</p>
 <p><a href="https://github.com/ryantm/agenix">agenix</a> encrypts secrets and stores them as .age files in your repository.
 Age files are encrypted with multiple ssh public keys, so any host or user with a
 matching ssh private key can read the data. The <a href="https://github.com/ryantm/agenix/blob/master/modules/age.nix">age module</a> will add those
-encrypted files to the nix store and decrypt them on activation to <code>/run/secrets</code>.</p>
+encrypted files to the nix store and decrypt them on activation to <code>/run/agenix</code>.</p>
 <h3 id="setup"><a class="header" href="#setup">Setup</a></h3>
 <p>All hosts must have openssh enabled, this is done by default in the core profile.</p>
 <p>You need to populate your <code>secrets/secrets.nix</code> with the proper ssh public keys.
@@ -822,7 +826,7 @@ to ensure that your secrets end up in <code>/run/secrets</code>.</p>
   age.secrets.mysecret.file = &quot;${self}/secrets/mysecret.age&quot;;
 }
 </code></pre>
-<p>Then you can just pass the path <code>/run/secrets/mysecret</code> to the module.</p>
+<p>Then you can just pass the path <code>/run/agenix/mysecret</code> to the module.</p>
 <p>You can make use of the many options provided by the age module to customize where and how
 secrets get decrypted. You can learn about them by looking at the
 <a href="https://github.com/ryantm/agenix/blob/master/modules/age.nix">age module</a>.</p>
