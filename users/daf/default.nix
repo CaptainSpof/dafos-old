@@ -3,7 +3,7 @@
   home-manager.users = { inherit (hmUsers) daf; };
 
   age.secrets = {
-    daf.file = "${self}/secrets/daf.age";
+    daf.file = "${self}/agenix/daf.age";
   };
 
   users.users.daf = {
