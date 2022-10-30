@@ -1,0 +1,27 @@
+** How to install
+*** Burning the ISO
+First, we need to prepare the USB stick (do you remember future self, all the
+hours wasted in this simple stuff?)
+
+Two things to remember:
+- Disk LabelType: ~GPT~
+- Filesystem: FAT32
+
+sudo dd if=/nix/store/<path from previous cmd>/iso/nixos.iso of=/dev/<usb dev> status=progress
+
+** Acknowledgment
+- This repository is based off the work of [[https://github.com/sweenu/nixfiles][sweenu]]
+- My previous configuration was forked from [[https://github.com/hlissner/dotfiles][hlissner's dotfiles]] and many parts are still present here
+
+** TODO
+- [ ] cleanup ~i2c~ stuff (make a commit first to keep a trace)
+*** Issues
+- [ ] suspend break fn keys https://bugzilla.kernel.org/show_bug.cgi?id=216101
+  fix in kernel 6.1?
+- [ ] steam ui is small
+  using GDK_SCALE = 2 fixes it
+  but I am not sure how it will work with other app. Maybe I can wrap the variable in a derivation ?
+- [X] plasma-integration not working
+- [ ] custom keyboard layout isn't working
+  - [ ] maybe wait for the ~kmonad~ module
+  - [ ] while we're at it let's checkout this: https://bepo.fr/wiki/Utilisateur:Kaze/B%C3%A9po-intl

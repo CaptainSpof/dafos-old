@@ -1,0 +1,22 @@
+// fr-dvorak-bepo-intl
+partial alphanumeric_keys
+xkb_symbols "bepo-intl" {
+            include "fr(bepo)"
+
+            // guillemets
+            key <AE01> { type[group1] = "FOUR_LEVEL_SEMIALPHABETIC", [ quotedbl       , 1 , emdash  , doublelowquotemark   ] }; // " 1 — „
+            key <AE02> { type[group1] = "FOUR_LEVEL_SEMIALPHABETIC", [ guillemotleft  , 2 , less    , leftdoublequotemark  ] }; // « 2 < “
+            key <AE03> { type[group1] = "FOUR_LEVEL_SEMIALPHABETIC", [ guillemotright , 3 , greater , rightdoublequotemark ] }; // » 3 > ”
+
+            // accents morts : circonflexe et grave
+            key <AD06> { type[group1] = "FOUR_LEVEL", [ dead_grave , exclam   , VoidSymbol          , exclamdown           ] }; // ` !   ¡
+            key <AC02> { type[group1] = "FOUR_LEVEL", [ u          , U        , dead_circumflex     , dead_caron           ] }; // u U ^
+
+            // accents morts en double sous {W} et {Z}
+            key <AD11> { type[group1] = "FOUR_LEVEL", [ dead_circumflex , dead_caron    , schwa        , SCHWA             ] }; // ^ ˇ ə Ə
+            key <AD12> { type[group1] = "FOUR_LEVEL", [ dead_diaeresis  , dead_abovedot , dead_breve   , VoidSymbol        ] }; // ¨ ¨ ¨
+
+            // W et Z sous la main gauche
+            key <AD05> { type[group1] = "FOUR_LEVEL", [ w          , W        , dead_breve          , VoidSymbol           ] }; // w W ˘
+            key <AB01> { type[group1] = "FOUR_LEVEL", [ z          , Z        , backslash          , VoidSymbol ] }; // z Z \
+};
