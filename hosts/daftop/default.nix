@@ -83,17 +83,11 @@
   powerManagement.cpuFreqGovernor = "performance";
 
   services = {
-    # avahi.enable = true;
     fwupd.enable = true;
     xserver.videoDrivers = [ "amdgpu" ];
   };
 
   time.timeZone = "Europe/Paris";
-
-  # virtualisation.docker = {
-  #   enable = true;
-  #   enableOnBoot = false;
-  # };
 
   age.identityPaths = [ "${config.vars.home}/.ssh/daf@daftop.pem" ];
 

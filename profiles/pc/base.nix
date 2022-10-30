@@ -14,13 +14,18 @@
   ];
 
   services = {
-    printing = {
-      enable = true;
-      drivers = with pkgs; [ gutenprint gutenprintBin hplip ];
-    };
+    # REVIEW: checkout getty
+    # getty = {
+    #   extraArgs = [ "--skip-login" ];
+    #   loginOptions = "${config.vars.username}";
+    # };
+    # printing = {
+    #   enable = true;
+    #   drivers = with pkgs; [ gutenprint gutenprintBin hplip ];
+    # };
   };
 
-
+  home-manager.users."${config.vars.username}" = {
     xdg.userDirs = {
       enable = true;
       createDirectories = true;

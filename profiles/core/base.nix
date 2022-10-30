@@ -19,7 +19,6 @@ with lib;
       git
       highlight
       iputils
-      kakoune
       less
       lshw
       moreutils
