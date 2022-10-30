@@ -14,7 +14,7 @@ sudo dd if=/nix/store/<path from previous cmd>/iso/nixos.iso of=/dev/<usb dev> s
 - My previous configuration was forked from [[https://github.com/hlissner/dotfiles][hlissner's dotfiles]] and many parts are still present here
 
 ** TODO
-- [ ] cleanup ~i2c~ stuff (make a commit first to keep a trace)
+- [X] cleanup ~i2c~ stuff (make a commit first to keep a trace)
 *** Issues
 - [ ] suspend break fn keys https://bugzilla.kernel.org/show_bug.cgi?id=216101
   fix in kernel 6.1?
