@@ -1,5 +1,6 @@
 { config, pkgs, lib, ... }:
 
+with lib;
 {
   nixpkgs.config.firefox.enableTridactylNative = true;
   nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
@@ -8,13 +9,60 @@
     programs.firefox = {
       enable = true;
       profiles."${config.vars.username}".settings = {
+        # Your customized toolbar settings are stored in
+        # 'browser.uiCustomization.state'. This tells firefox to sync it between
+        # machines. WARNING: This may not work across OSes. Since I use NixOS on
+        # all the machines I use Firefox on, this is no concern to me.
         "services.sync.prefs.sync.browser.uiCustomization.state" = true;
+        # Enable ETP for decent security (makes firefox containers and many
+        # common security/privacy add-ons redundant).
+        "browser.contentblocking.category" = "strict";
+        "privacy.donottrackheader.enabled" = true;
+        "privacy.donottrackheader.value" = 1;
+        "privacy.purge_trackers.enabled" = true;
+        # Don't use the built-in password manager.
+        "signon.rememberSignons" = false;
+        # Do not check if Firefox is the default browser
         "browser.shell.checkDefaultBrowser" = false;
-        "browser.aboutConfig.showWarning" = false;
         "browser.urlbar.suggest.quicksuggest.sponsored" = false;
-        "browser.uidensity" = 2;
+        "browser.newtabpage.activity-stream.telemetry" = false;
+        # Disable new tab tile ads & preload
+        # http://www.thewindowsclub.com/disable-remove-ad-tiles-from-firefox
+        # http://forums.mozillazine.org/viewtopic.php?p=13876331#p13876331
+        # https://wiki.mozilla.org/Tiles/Technical_Documentation#Ping
+        # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-source
+        # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-ping
+        "browser.newtabpage.enhanced" = false;
+        "browser.newtabpage.introShown" = true;
+        "browser.newtab.preload" = false;
+        "browser.newtabpage.directory.ping" = "";
+        "browser.newtabpage.directory.source" = "data:text/plain,{}";
+        # Show whole URL in address bar
+        "browser.urlbar.trimURLs" = false;
+        # Disable some not so useful functionality.
+        "browser.disableResetPrompt" =
+          true; # "Looks like you haven't started Firefox in a while."
+        "browser.onboarding.enabled" =
+          false; # "New to Firefox? Let's get started!" tour
+        "browser.aboutConfig.showWarning" =
+          false; # Warning when opening about:config
+        # Disable telemetry (most of them anyway)
+        "toolkit.telemetry.enabled" = false;
+        "toolkit.telemetry.unified" = false;
+        "toolkit.telemetry.archive.enabled" = false;
+        "experiments.supported" = false;
+        "experiments.enabled" = false;
+        "experiments.manifest.uri" = "";
+        "browser.ping-centre.telemetry" = false;
+        "datareporting.healthreport.uploadEnabled" = false;
+        "datareporting.healthreport.service.enabled" = false;
+        "datareporting.policy.dataSubmissionEnabled" = false;
         "extensions.pocket.enabled" = false;
-      };
+      }
+      # Allow to use Qt file picker
+      // (mkIf (config.profiles.desktop.plasma.enable) {
+        "widget.use-xdg-desktop-portal" = true;
+      });
       extensions =
         with pkgs.nur.repos.rycee.firefox-addons; [
           ublock-origin
