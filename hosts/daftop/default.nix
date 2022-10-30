@@ -44,8 +44,8 @@
   };
 
   swapDevices = [
-      { device = "/dev/disk/by-label/swap"; }
-    ];
+    { device = "/dev/disk/by-label/swap"; }
+  ];
 
   hardware = {
     bluetooth = {
@@ -70,9 +70,15 @@
 
   age.identityPaths = [ "${config.vars.home}/.ssh/daf@daftop.pem" ];
 
-  profiles.services.espanso.enable = true;
-  profiles.hardware.logitech.enable = true;
-  profiles.graphical.chats.slack.enable = true;
+  profiles = {
+    services.espanso.enable = true;
+    hardware.logitech.enable = true;
+
+    graphical = {
+      krita.enable = true;
+      chats.slack.enable = true;
+    };
+  };
 
   home-manager.users."${config.vars.username}" = {
     home.file.".ssh/daf@daftop.pub".text = config.vars.sshPublicKey;
