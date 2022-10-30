@@ -25,6 +25,7 @@
   environment.systemPackages = with pkgs; [
     acpi
     lm_sensors
+    bitwarden
   ];
 
   fileSystems = {
@@ -71,6 +72,7 @@
 
   profiles.services.espanso.enable = true;
   profiles.hardware.logitech.enable = true;
+  profiles.graphical.chats.slack.enable = true;
 
   home-manager.users."${config.vars.username}" = {
     home.file.".ssh/daf@daftop.pub".text = config.vars.sshPublicKey;
