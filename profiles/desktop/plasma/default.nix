@@ -42,6 +42,9 @@
 
         bismuth = {
           "toggle_window_floating" = "Meta+F";
+          "rotate" = [ "Meta+O" ];
+          "increase_master_win_count" = [ "Meta+I" ];
+          "decrease_master_win_count" = [ "Meta+Shift+I" ];
 
           "increase_window_height" = "Meta+Ctrl+S";
           "decrease_window_height" = "Meta+Ctrl+T";
@@ -71,6 +74,9 @@
           "Window One Desktop to the Right" = "Meta+Shift+H";
           "Window On All Desktops" = "Meta+Alt+A";
           "Window Close" = [ "Alt+F4" "Meta+Q"];
+          "Window to Next Screen" = ["Meta+Shift+Right" "Meta+Ctrl+Shift+R"];
+          "Window to Previous Screen" = ["Meta+Shift+Left" "Meta+Ctrl+Shift+C"];
+          "Window Fullscreen" = [ "Meta+Ctrl+F" ];
         };
 
         "org.kde.krunner.desktop"."_launch" = ["Meta+Space" "Alt+F2" "Search"];
@@ -99,7 +105,6 @@
         "kwinrc"."Script-bismuth"."screenGapRight" = 15;
         "kwinrc"."Script-bismuth"."screenGapTop" = 15;
         "kwinrc"."Script-bismuth"."tileLayoutGap" = 15;
-
         # TODO: use ${pkgs.maliit}
         # "kwinrc"."Wayland"."InputMethod[$e]" = "/run/current-system/sw/share/applications/com.github.maliit.keyboard.desktop";
         # "kwinrc"."Wayland"."VirtualKeyboardEnabled" = true;
@@ -114,6 +119,8 @@
         "ksmserverrc"."General"."shutdownType" = 2;
 
         "krunnerrc"."General"."FreeFloating" = true;
+
+        "plasmarc"."Wallpapers"."usersWallpapers" = toString ./wallpapers/nixos.png;
 
         "plasma-localerc"."Formats"."LANG" = "en_US.UTF-8";
         "plasma-localerc"."Formats"."LC_ADDRESS" = "fr_FR.UTF-8";
