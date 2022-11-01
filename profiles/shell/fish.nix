@@ -8,6 +8,14 @@
         fish_default_key_bindings
       '';
       shellAbbrs = rec {
+        # ls
+        lst = "ls -T";
+        lS = "ls -1";
+
+        # bat
+        bdiff = "batdiff";
+        brg = "batgrep";
+
         # nix
         n = "nix";
         ns = "nix search --no-update-lock-file nixpkgs";
@@ -17,11 +25,6 @@
         nrb = ''nixos-rebuild --use-remote-sudo --flake "$(pwd)#$(hostname)"'';
         nrbs = "${nrb} switch";
         ndiff = "nix store diff-closures /nix/var/nix/profiles/(ls -r /nix/var/nix/profiles/ | grep -E 'system\-' | sed -n '2 p') /nix/var/nix/profiles/system";
-
-        # sudo
-        # s = "sudo -E";
-        # si = "sudo -i";
-        # se = "sudoedit";
 
         # git
         g = "git";
@@ -34,9 +37,12 @@
         gl = ''git log --graph --pretty="format:%C(yellow)%h%Creset %C(red)%G?%Creset%C(green)%d%Creset %s %Cblue(%cr) %C(bold blue)<%aN>%Creset"'';
         gco = "git checkout";
         gd = "git diff";
+        gdt = "git difftool";
         gds = "git diff --staged";
         gp = "git push";
         gpf = "git push --force-with-lease";
+        gf = "git fetch";
+        gF = "git pull";
         grc = "git rebase --continue";
         gri = "git rebase --interactive";
         gra = "git rebase --abort";
@@ -50,26 +56,33 @@
         # systemd
         sys = "sudo systemctl";
         sysu = "systemctl --user";
-        jtl = "journalctl";
-        jtlb = "journalctl -b";
-        jtlu = "journalctl -u";
+        j = "journalctl";
+        jb = "journalctl -b";
+        ju = "journalctl -u";
 
         # apps
         kc = "kdeconnect-cli -n dafphone";
         da = "direnv allow";
+
+        # misc
+        q = "exit";
+        mkdir = "mkdir -pv";
+        y = "xclip -selection clipboard -in";
+        p = "xclip -selection clipboard -out";
       };
 
       shellAliases = rec {
-        ls="exa";
-        sl="ls";
         exa="exa --group-directories-first --git";
-        l="exa -blF";
-        ll="exa -abghilmu";
-        llm="ll --sort=modified";
-        la="LC_COLLATE=C exa -ablF";
-        tree="exa --tree";
+        ls="${exa}";
+        sl="${exa}";
+        l="${exa} -blF";
+        ll="${exa} -abghilmu --icons";
+        llm="${ll} --sort=modified";
+        la="LC_COLLATE=C ${exa} -ablF";
+        tree="${exa} -T";
 
         cat = "bat";
+        man = "batman";
         vim = "nvim";
       };
       functions = {
@@ -108,12 +121,12 @@
           };
         }
         {
-          name = "bang-bang";
+          name = "puffer-fish";
           src = pkgs.fetchFromGitHub {
-            owner = "oh-my-fish";
-            repo = "plugin-bang-bang";
-            rev = "f969c618301163273d0a03d002614d9a81952c1e";
-            sha256 = "sha256-A8ydBX4LORk+nutjHurqNNWFmW6LIiBPQcxS3x4nbeQ=";
+            owner = "nickeb96";
+            repo = "puffer-fish";
+            rev = "fd0a9c95da59512beffddb3df95e64221f894631";
+            sha256 = "sha256-aij48yQHeAKCoAD43rGhqW8X/qmEGGkg8B4jSeqjVU0=";
           };
         }
       ];
