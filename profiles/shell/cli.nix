@@ -23,6 +23,7 @@
       killall # every last one of them (the processes, of course)
       lfs # df, but pretty 🦀
       macchina # neofetch, but fast 🦀
+      manix # man, but for nix
       miniserve # serve files locally 🦀
       navi # retired from helping Link to help you suck less at bash 🦀
       pastel # a color picker in a terminal ? Genius. 🦀

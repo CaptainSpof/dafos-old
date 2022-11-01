@@ -10,7 +10,6 @@ in {
 
   config = mkIf cfg.enable {
 
-    # Packages
     environment.systemPackages = with pkgs; [
       logiops
     ] ++
@@ -24,7 +23,6 @@ in {
       SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", MODE="0660", GROUP="input"
     '';
 
-    # Services
     services.ratbagd.enable = cfg.gaming.enable;
     systemd.services.logid = {
       enable = true;

@@ -6,24 +6,8 @@
   environment.defaultPackages = with pkgs; [
     spotify # TODO: move out
     ethtool
-    gitui
-    manix
     nixpkgs-review
-    tealdeer
-    wol
   ];
-
-  services = {
-    # REVIEW: checkout getty
-    # getty = {
-    #   extraArgs = [ "--skip-login" ];
-    #   loginOptions = "${config.vars.username}";
-    # };
-    # printing = {
-    #   enable = true;
-    #   drivers = with pkgs; [ gutenprint gutenprintBin hplip ];
-    # };
-  };
 
   environment.sessionVariables = {
     # These are the defaults, and xdg.enable does set them, but due to load
