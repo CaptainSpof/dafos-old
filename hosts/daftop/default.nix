@@ -72,6 +72,15 @@
 
   profiles = {
     services.espanso.enable = true;
+    services.syncthing = {
+      enable = true;
+      folders = {
+        "Books" = { path = "${config.vars.syncFolder}/Books"; devices = [ "dafbox" "daf-old-top" ]; };
+        "Org" = { path = "${config.vars.syncFolder}/Org"; devices = [ "dafbox" "daf-old-top" ]; };
+        "Share" = { path = "${config.vars.syncFolder}/Share"; devices = [ "dafbox" "daf-old-top" ]; };
+        "Test" = { path = "${config.vars.syncFolder}/Test"; devices = [ "dafbox" "daf-old-top" ]; };
+      };
+    };
     hardware.logitech.enable = true;
 
     graphical = {
@@ -82,5 +91,7 @@
 
   home-manager.users."${config.vars.username}" = {
     home.file.".ssh/daf@daftop.pub".text = config.vars.sshPublicKey;
+    # FIXME: create symlinks for Books and Org folders
+    # home.activation.Books = lib.hm.dag.entryAfter ["writeBoundary"] ''$DRY_RUN_CMD ln -sfn $VERBOSE_ARG ${config.vars.syncFolder}/Books ${config.vars.booksFolder}'';
   };
 }
