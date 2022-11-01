@@ -3,20 +3,23 @@
 {
   home-manager.users."${config.vars.username}" = {
     home.packages = with pkgs; [
-      trash-cli
-      exa # ls, but pretty 🦀
       bandwhich # htop, but for network 🦀
       bat # cat, but pretty 🦀
+      # Bash scripts that integrate bat with various command line tools.
+      # https://github.com/eth-p/bat-extras/
+      bat-extras.batman # manual pages using bat as the manual page formatter.
+      bat-extras.batgrep # search through and highlight files using ripgrep.
+      bat-extras.batdiff # Diff a file against the current git index, or display the diff between two files.
+      # bat-extras.prettybat # Pretty-print source code and highlight it with bat.
       bottom # htop, but pretty 🦀
       comma
       dua # du, but pretty 🦀
+      exa # ls, but pretty 🦀
       fd # find, but fast, also I know how to use it 🦀
       fzf # fuzzy finder, the original (probably not, who care)
-      hck # cut, but rusty �🦀🦀
-      xh # httpie, but rusty 🦀
+      hck # cut, but rusty 🪓🦀
       jq # make JSON readable, well more readable
       just # just make it! Makefile, but simpler 🦀��
-      kakoune
       killall # every last one of them (the processes, of course)
       lfs # df, but pretty 🦀
       macchina # neofetch, but fast 🦀
@@ -29,8 +32,10 @@
       skim # fzf, but rusty 🦀
       tealdeer # yeah, I need all the help; tldr but rusty 🦀
       tokei # need to know how many lines of poorly written code you typed ? 🦀
+      trash-cli
       watchexec # watch, then exec; run commands when a file changes 🦀
       wmctrl # even X need some CLIs
+      xh # httpie, but rusty 🦀
     ];
 
     programs = {
@@ -50,9 +55,6 @@
         enable = true;
         enableFishIntegration = true;
         settings = {
-          # format = ''$nix_shell$directory$aws$all$package$vcsh$git_commit$git_state$git_metrics$git_status$git_branch
-          # $cmd_duration$jobs$battery$time$status$shell$custom$memory_usage$character'';
-
           format = ''$nix_shell$directory$aws$all$package$fill$vcsh$git_commit$git_state$git_metrics$git_branch$git_status
 $cmd_duration$jobs$battery$status$shell$custom$memory_usage$character'';
           right_format = "$time";
@@ -109,22 +111,10 @@ $cmd_duration$jobs$battery$status$shell$custom$memory_usage$character'';
 
           aws = {
             style = "bold #bb7445";
-            # displayed_items = "profile";
-            format = "· [$symbol$profile]($style) ";
+            symbol = "🌩  ";
+            expiration_symbol = "🔒 ";
+            format = "· [$symbol($profile )($duration )]($style) ";
           };
-
-
-          # git_status = {
-          #   stashed = "⍟";
-          #   staged = "[+$count](green) ";
-          #   modified = "[!$count](yellow) ";
-          #   untracked = "[?$count](blue) ";
-          #   deleted = "[-$count](red) ";
-          #   ahead = "⇡$count";
-          #   diverged = "⇕⇡$ahead_count⇣$behind_count";
-          #   behind = "⇣$count";
-          #   format = " ([$stashed$modified$staged$untracked $ahead_behind]($style))";
-          # };
 
           git_branch = {
             style = "#2d2f40 bold";
@@ -133,18 +123,18 @@ $cmd_duration$jobs$battery$status$shell$custom$memory_usage$character'';
           };
 
           git_status = {
-            style      = "#2d2f40";
+            style = "#2d2f40";
             conflicted = "[ ](bold fg:88 bg:#2d2f40)[  $count ](fg:#999cb2 bg:#2d2f40)";
-            staged     = "[+ $count ](fg:#999cb2 bg:#2d2f40)";
-            modified   = "[ $count ](fg:#999cb2 bg:#2d2f40)";
-            renamed    = "[ $count ](fg:#999cb2 bg:#2d2f40)";
-            deleted    = "[ $count ](fg:#999cb2 bg:#2d2f40)";
-            untracked  = "[?$count ](fg:#999cb2 bg:#2d2f40)";
-            stashed    = "[ $count ](fg:#999cb2 bg:#2d2f40)";
-            ahead      = "[ $count ](fg:#523333 bg:#2d2f40)";
-            behind     = "[ $count ](fg:#999cb2 bg:#2d2f40)";
-            diverged   = "[ ](fg:88 bg:#2d2f40)[ נּ ](fg:#999cb2 bg:#2d2f40)[ $ahead_count ](fg:#999cb2 bg:#2d2f40)[ $behind_count ](fg:#999cb2 bg:#2d2f40)";
-            format     = "((bg:$style fg:#999cb2)$conflicted$staged$modified$renamed$deleted$untracked$stashed$ahead_behind(fg:$style))";
+            staged = "[+ $count ](fg:#999cb2 bg:#2d2f40)";
+            modified = "[ $count ](fg:#999cb2 bg:#2d2f40)";
+            renamed = "[ $count ](fg:#999cb2 bg:#2d2f40)";
+            deleted = "[ $count ](fg:#999cb2 bg:#2d2f40)";
+            untracked = "[?$count ](fg:#999cb2 bg:#2d2f40)";
+            stashed = "[ $count ](fg:#999cb2 bg:#2d2f40)";
+            ahead = "[ $count ](fg:#523333 bg:#2d2f40)";
+            behind = "[ $count ](fg:#999cb2 bg:#2d2f40)";
+            diverged = "[ ](fg:88 bg:#2d2f40)[ נּ ](fg:#999cb2 bg:#2d2f40)[ $ahead_count ](fg:#999cb2 bg:#2d2f40)[ $behind_count ](fg:#999cb2 bg:#2d2f40)";
+            format = "((bg:$style fg:#999cb2)$conflicted$staged$modified$renamed$deleted$untracked$stashed$ahead_behind(fg:$style))";
           };
 
           git_commit = {
@@ -173,11 +163,12 @@ $cmd_duration$jobs$battery$status$shell$custom$memory_usage$character'';
             format = "[$state]($style)";
           };
           package.format = "· [$symbol$version]($style) ";
+
         };
       };
     };
 
     home.sessionVariables = { DIRENV_LOG_FORMAT = ""; };
   };
-    programs.less.configFile = ./lesskey;
+  programs.less.configFile = ./lesskey;
 }
