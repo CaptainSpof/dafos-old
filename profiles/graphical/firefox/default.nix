@@ -27,11 +27,6 @@ with lib;
         "browser.urlbar.suggest.quicksuggest.sponsored" = false;
         "browser.newtabpage.activity-stream.telemetry" = false;
         # Disable new tab tile ads & preload
-        # http://www.thewindowsclub.com/disable-remove-ad-tiles-from-firefox
-        # http://forums.mozillazine.org/viewtopic.php?p=13876331#p13876331
-        # https://wiki.mozilla.org/Tiles/Technical_Documentation#Ping
-        # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-source
-        # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-ping
         "browser.newtabpage.enhanced" = false;
         "browser.newtabpage.introShown" = true;
         "browser.newtab.preload" = false;
@@ -71,6 +66,7 @@ with lib;
           plasma-integration
           multi-account-containers
           org-capture # TODO: setup
+          simple-tab-groups
           tridactyl
         ];
     };
@@ -89,6 +85,7 @@ with lib;
       MOZ_DBUS_REMOTE = "1";
     };
 
+    # REVIEW: kde handles it?
     xdg.mimeApps.defaultApplications = {
       "text/html" = [ "firefox.desktop" ];
       "application/x-extension-htm" = [ "firefox.desktop" ];
