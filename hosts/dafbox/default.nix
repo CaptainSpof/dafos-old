@@ -38,47 +38,16 @@
       enable = true;
       powerOnBoot = false;
     };
-    sane.enable = true; # REVIEW: checkout sane
     opengl.enable = true;
-    sensor.iio.enable = true;
+    sensor.iio.enable = true; # REVIEW: sensor available for dafbox?
   };
 
   powerManagement.cpuFreqGovernor = "powersave";
 
   services = {
     avahi.enable = true;
-    fwupd.enable = true; # REVIEW: checkout fwupd
+    fwupd.enable = true; # REVIEW: fwupd available for dafbox?
   };
 
   time.timeZone = "Europe/Paris";
-
-  # virtualisation.docker = {
-  #   enable = true;
-  #   enableOnBoot = false;
-  # };
-
-  # age.identityPaths = [ "${config.vars.home}/.ssh/" ]; # TODO: setup age
-
-  home-manager.users."${config.vars.username}" = {
-    # home.file.".ssh/id_ed25519.pub".text = config.vars.sshPublicKey;
-    # REVIEW: checkout kanshi
-    # services.kanshi.profiles = {
-    #   undocked.outputs = [
-    #     {
-    #       criteria = "eDP-1";
-    #       status = "enable";
-    #       scale = 1.5;
-    #       position = "0,0";
-    #     }
-    #   ];
-    # };
-    # REVIEW: checkout unsison
-    # services.unison = {
-    #   enable = true;
-    #   pairs.calibre.roots = [
-    #     "${config.vars.home}/books"
-    #     "ssh://root@benoni//opt/calibre/data"
-    #   ];
-    # };
-  };
 }

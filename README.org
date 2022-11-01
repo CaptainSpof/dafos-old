@@ -1,4 +1,4 @@
-** How to install
+** How to install (TODO)
 *** Burning the ISO
 First, we need to prepare the USB stick (do you remember future self, all the
 hours wasted in this simple stuff?)
@@ -7,13 +7,15 @@ Two things to remember:
 - Disk LabelType: ~GPT~
 - Filesystem: FAT32
 
+#+begin_src shell
 sudo dd if=/nix/store/<path from previous cmd>/iso/nixos.iso of=/dev/<usb dev> status=progress
+#+end_src
 
 ** Acknowledgment
 - This repository is based off the work of [[https://github.com/sweenu/nixfiles][sweenu]]
 - My previous configuration was forked from [[https://github.com/hlissner/dotfiles][hlissner's dotfiles]] and many parts are still present here
 
-** TODO
+** Tasks
 - [X] cleanup ~i2c~ stuff (make a commit first to keep a trace)
 *** Issues
 - [ ] suspend break fn keys https://bugzilla.kernel.org/show_bug.cgi?id=216101

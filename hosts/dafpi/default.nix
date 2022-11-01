@@ -4,14 +4,14 @@ let
   ipv4 = "192.168.0.33"; # TODO: add dafpi address
 in
 {
-  # imports = suites.server;
+  imports = suites.server;
 
-nixpkgs.overlays = [
-  (final: super: {
-    makeModulesClosure = x:
-      super.makeModulesClosure (x // { allowMissing = true; });
-  })
-];
+# nixpkgs.overlays = [
+#   (final: super: {
+#     makeModulesClosure = x:
+#       super.makeModulesClosure (x // { allowMissing = true; });
+#   })
+# ];
 
   boot = {
     loader = {
@@ -24,15 +24,15 @@ nixpkgs.overlays = [
       generic-extlinux-compatible.enable = lib.mkForce false; # incompatible with raspberryPi.enable = true
     };
     kernelParams = [ "cma=128M" ];
-    # kernelPackages = pkgs.linuxPackages_rpi4;
+    kernelPackages = pkgs.linuxPackages_rpi4;
 
-    kernelPackages = let
-      crossPkgs = import pkgs.path {
-        localSystem.system = "x86_64-linux";
-        crossSystem.system = "aarch64-linux";
-      };
-    # in crossPkgs.linuxPackages_5_10;
-    in crossPkgs.linuxPackages_rpi4;
+    # kernelPackages = let
+    #   crossPkgs = import pkgs.path {
+    #     localSystem.system = "x86_64-linux";
+    #     crossSystem.system = "aarch64-linux";
+    #   };
+    # # in crossPkgs.linuxPackages_5_10;
+    # in crossPkgs.linuxPackages_rpi4;
   };
 
   fileSystems = {

@@ -14,6 +14,7 @@ in
 
     home = mkOption { type = types.str; };
     configHome = mkOption { type = types.str; };
+    booksFolder = mkOption { type = types.str; };
     documentsFolder = mkOption { type = types.str; };
     downloadFolder = mkOption { type = types.str; };
     musicFolder = mkOption { type = types.str; };
@@ -23,6 +24,7 @@ in
     repositoriesFolder = mkOption { type = types.str; };
     screenshotFolder = mkOption { type = types.str; };
     screencastFolder = mkOption { type = types.str; };
+    syncFolder = mkOption { type = types.str; };
     wallpaper = mkOption { type = types.str; };
 
     sshPublicKey = mkOption { type = types.str; };
