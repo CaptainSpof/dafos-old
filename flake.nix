@@ -118,10 +118,5 @@
           profiles.system.sshUser = "root";
         };
       };
-
-      # REVIEW: keep?
-      herculesCI = {
-        ciSystems = [ "x86_64-linux" ];
-      };
     };
 }
