@@ -92,7 +92,11 @@
         };
 
         hosts = {
-          # daftop.modules = [ nixos-hardware.nixosModules.framework-12th-gen-intel ]; # TODO: find best profile for lenovo yoga
+          daftop.modules = [
+            nixos-hardware.nixosModules.common-pc-ssd
+            nixos-hardware.nixosModules.common-cpu-amd
+            nixos-hardware.nixosModules.common-cpu-amd-pstate
+          ];
           dafpi.system = "aarch64-linux";
         };
       };
