@@ -74,12 +74,14 @@
     services.espanso.enable = true;
     services.syncthing = {
       enable = true;
-      folders = {
-        "Books" = { path = "${config.vars.syncFolder}/Books"; devices = [ "dafbox" "daf-old-top" ]; };
-        "Org" = { path = "${config.vars.syncFolder}/Org"; devices = [ "dafbox" "daf-old-top" ]; };
-        "Share" = { path = "${config.vars.syncFolder}/Share"; devices = [ "dafbox" "daf-old-top" ]; };
-        "Test" = { path = "${config.vars.syncFolder}/Test"; devices = [ "dafbox" "daf-old-top" ]; };
-      };
+
+      folders = let syncFolderPath = "${config.vars.home}/${config.vars.syncFolder }"; in
+        {
+          "Audio" = { path = "${syncFolderPath}/Audio"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+          "Books" = { path = "${syncFolderPath}/Books"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+          "Org" = { path = "${syncFolderPath}/Org"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+          "Share" = { path = "${syncFolderPath}/Share"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+        };
     };
     hardware.logitech.enable = true;
 
