@@ -57,7 +57,10 @@ with lib;
       # Allow to use Qt file picker
       // (mkIf (config.profiles.desktop.plasma.enable) {
         "widget.use-xdg-desktop-portal" = true;
+        "widget.use-xdg-desktop-portal.file-picker" = 1;
+        "widget.use-xdg-desktop-portal.mime-handler" = 1;
       });
+
       extensions =
         with pkgs.nur.repos.rycee.firefox-addons; [
           ublock-origin
@@ -81,6 +84,8 @@ with lib;
     };
 
     home.sessionVariables = {
+      # FIXME: unfortunately I can't seem to be able to share my screen with
+      # slack while this is active. But if I disable it, I lose the gestures.
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_DBUS_REMOTE = "1";
     };
