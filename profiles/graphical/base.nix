@@ -28,9 +28,7 @@
     portal = {
       enable = true;
       extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-        libsForQt5.xdg-desktop-portal-kde
+        xdg-desktop-portal-kde
       ];
     };
   };
