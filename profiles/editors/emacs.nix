@@ -9,6 +9,7 @@ in {
   config = mkIf cfg.enable {
     environment.sessionVariables.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
     home-manager.users."${config.vars.username}" = {
+      services.emacs.enable = true;
       programs.emacs = {
         enable = true;
         # let's be reasonable for now, emacs 28 it is…

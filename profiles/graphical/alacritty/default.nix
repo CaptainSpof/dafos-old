@@ -13,11 +13,12 @@
           decorations = "none";
           padding = { x = 8; y = 8; };
           dynamic_padding = true;
+          # set default dimensions that will be used by alacrittydropdown
           dimensions.columns = 120;
           dimensions.lines = 40;
         };
         font = {
-          size = 11.0;
+          size = 12.0;
           normal = { family = "Inconsolata Nerd Font"; };
         };
         colors = {
