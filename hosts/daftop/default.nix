@@ -23,9 +23,9 @@
   services.acpid.enable = true;
 
   environment.systemPackages = with pkgs; [
-    acpi
     lm_sensors
     bitwarden
+    tpacpi-bat
   ];
 
   fileSystems = {
@@ -71,18 +71,18 @@
   age.identityPaths = [ "${config.vars.home}/.ssh/daf@daftop.pem" ];
 
   profiles = {
-    services.espanso.enable = true;
+    services.espanso.enable = false;
     services.syncthing = {
       enable = true;
-
       folders = let syncFolderPath = "${config.vars.home}/${config.vars.syncFolder }"; in
         {
-          "Audio" = { path = "${syncFolderPath}/Audio"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-          "Books" = { path = "${syncFolderPath}/Books"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-          "Org" = { path = "${syncFolderPath}/Org"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-          "Share" = { path = "${syncFolderPath}/Share"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+          "Audio" = { path = "${syncFolderPath}/Audio"; devices  = [ "dafbox" "daf-old-top" "dafphone" ]; };
+          "Books" = { path = "${syncFolderPath}/Books"; devices  = [ "dafbox" "daf-old-top" "dafphone" ]; };
+          "Org"   = { path = "${syncFolderPath}/Org";   devices  = [ "dafbox" "daf-old-top" "dafphone" ]; };
+          "Share" = { path = "${syncFolderPath}/Share"; devices  = [ "dafbox" "daf-old-top" "dafphone" ]; };
         };
     };
+
     hardware.logitech.enable = true;
 
     graphical = {
