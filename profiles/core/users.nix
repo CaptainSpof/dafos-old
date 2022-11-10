@@ -10,7 +10,7 @@
         shell = pkgs.fish;
         hashedPassword = "$6$gz0h6JXlZ2NE/U7W$JV1pcmILRo.oFkAA/73AdLhgANbqdOOONfGyOQgy.VF7NIfbjqanY/jTbVV3Bva8rMWmUNXJZC47ihTxhvHJc/";
         isNormalUser = true;
-        extraGroups = [ "wheel" ]
+        extraGroups = [ "wheel" "input" ]
           ++ pkgs.lib.optional config.virtualisation.docker.enable "docker"
           ++ pkgs.lib.optional config.virtualisation.libvirtd.enable "libvirtd"
           ++ pkgs.lib.optional config.networking.networkmanager.enable "networkmanager"
