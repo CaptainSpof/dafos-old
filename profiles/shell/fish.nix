@@ -26,6 +26,9 @@
         nrbs = "${nrb} switch";
         ndiff = "nix store diff-closures /nix/var/nix/profiles/(ls -r /nix/var/nix/profiles/ | grep -E 'system\-' | sed -n '2 p') /nix/var/nix/profiles/system";
 
+        # rm
+        rmf = "rm -rf";
+
         # git
         g = "git";
         ga = "git add";
@@ -69,6 +72,8 @@
         mkdir = "mkdir -pv";
         y = "xclip -selection clipboard -in";
         p = "xclip -selection clipboard -out";
+        pp = "pwd";
+        "~~" = "cd $PRJ_ROOT";
       };
 
       shellAliases = rec {
@@ -87,13 +92,6 @@
       };
       functions = {
         fish_greeting = "";
-        "-" = "cd -";
-        ".." = "cd ..";
-        "..." = "cd ../..";
-        "...." = "cd ../../..";
-        "....." = "cd ../../../..";
-        # bwu = "set -Ux BW_SESSION (bw unlock --raw)";
-        # genpass = "bw generate -ulns --length 16";
         rm = "trash $argv";
         mn = ''manix "" | grep '^# ' | sed 's/^# \(.*\) (.*/\1/;s/ (.*//;s/^# //' | sk --preview="manix '{}'" | xargs manix'';
         fwifi = {
@@ -102,15 +100,6 @@
         };
       };
       plugins = [
-        {
-          name = "anicode";
-          src = pkgs.fetchFromGitHub {
-            owner = "igalic";
-            repo = "anicode";
-            rev = "982709ba6619dd758e83c0e7126356fccabf2379";
-            sha256 = "Vu1gioUMbCa/AVTMQMkC+dskcUqXyHP6Tay/gsVu+Pc=";
-          };
-        }
         {
           name = "done";
           src = pkgs.fetchFromGitHub {
