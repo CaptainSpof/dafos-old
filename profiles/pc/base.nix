@@ -4,7 +4,6 @@
   documentation.dev.enable = true;
 
   environment.defaultPackages = with pkgs; [
-    spotify # TODO: move out
     ethtool
     nixpkgs-review
   ];

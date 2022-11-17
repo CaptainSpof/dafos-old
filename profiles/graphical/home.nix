@@ -7,7 +7,6 @@
       libnotify
       paprefs
       pavucontrol
-      vlc
       xdg-utils
     ];
 

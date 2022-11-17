@@ -87,11 +87,24 @@
 
     graphical = {
       krita.enable = true;
+      audio = {
+        enable = true;
+        spotify.enable = true;
+      };
       chats.slack.enable = true;
+      video = {
+        enable = true;
+        recording.enable = true;
+      };
     };
   };
 
   home-manager.users."${config.vars.username}" = {
+
+    home.sessionVariables = {
+      "GDK_SCALE" = 2;
+    };
+
     home.file.".ssh/daf@daftop.pub".text = config.vars.sshPublicKey;
     # FIXME: create symlinks for Books and Org folders
     # home.activation.Books = lib.hm.dag.entryAfter ["writeBoundary"] ''$DRY_RUN_CMD ln -sfn $VERBOSE_ARG ${config.vars.syncFolder}/Books ${config.vars.booksFolder}'';
