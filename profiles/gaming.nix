@@ -7,7 +7,9 @@ in {
     enable = mkOption { type = types.bool; default = true; };
   };
   config = mkIf cfg.enable {
-    environment.defaultPackages = with pkgs; [ lutris];
+    environment.defaultPackages = with pkgs; [
+      lutris
+    ];
     programs.steam.enable = true;
     hardware.steam-hardware.enable = true;
   };

@@ -4,12 +4,12 @@ channels: final: prev: {
 
   inherit (channels.latest)
     cachix
+    deploy-rs
     dhall
     element-desktop
-    rage
     nix-index
     nixpkgs-fmt
     qutebrowser
-    starship
-    deploy-rs;
+    rage
+    starship;
 }

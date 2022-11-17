@@ -10,11 +10,11 @@ in {
   config = mkIf cfg.enable {
     services.xserver.enable = true;
     services.xserver.displayManager.sddm.enable = true;
-    services.xserver.desktopManager.plasma5.supportDDC = true;
+    services.xserver.desktopManager.plasma5.supportDDC = false;
     services.xserver.displayManager.sddm.settings.Wayland.SessionDir =
       "${pkgs.plasma5Packages.plasma-workspace}/share/wayland-sessions";
     services.xserver.displayManager.defaultSession = "plasmawayland";
-
+    services.xserver.desktopManager.plasma5.useQtScaling = true;
     services.xserver.desktopManager.plasma5.enable = true;
     services.xserver.desktopManager.plasma5.runUsingSystemd = true;
 
@@ -22,12 +22,27 @@ in {
       name = "kwallet";
       enableKwallet = true;
     };
+    # security.polkit.enable = true;
+
+    # FIXME: partition-manager can't find any devices
+    # programs.partition-manager.enable = true;
+    # services.dbus.packages = [ pkgs.libsForQt5.kpmcore ];
 
     environment.systemPackages = with pkgs;
       [
+        # partition-manager
+        ark
         plasma-integration
-        # maliit-keyboard # virtual keyboard (won't shut up, spamming dmessage)
-      ] ++ (with libsForQt5; [ bismuth lightly ]);
+        xdg-desktop-portal-kde
+        lightly
+        # klassy
+        maliit-keyboard # virtual keyboard (won't shut up, spamming dmessage)
+      ] ++ (with libsForQt5; [
+        bismuth
+        # kpmcore
+        # kinfocenter
+        frameworkintegration
+      ]);
 
     home-manager.users."${config.vars.username}" = {
 
@@ -37,11 +52,6 @@ in {
         # Some high-level settings:
         workspace.clickItemTo = "select";
 
-        # hotkeys.commands."Launch Konsole" = {
-        #   key = "Meta+Return";
-        #   command = "alacritty";
-        # };
-
         # Some mid-level settings:
         shortcuts = {
           "Alacritty.desktop"."New" = "Meta+Return";
@@ -49,6 +59,13 @@ in {
 
           bismuth = {
             "toggle_window_floating" = "Meta+F";
+            "toggle_float_layout" = "Meta+Ctrl+Shift+F";
+            "toggle_monocle_layout" = "Meta+Ctrl+M";
+            "toggle_spread_layout" = "Meta+Ctrl+Shift+S";
+            "toggle_stair_layout" = "Meta+Ctrl+S";
+            "toggle_three_column_layout" = "Meta+Ctrl+C";
+            "toggle_tile_layout" = "Meta+Ctrl+T";
+
             "rotate" = [ "Meta+O" ];
             "increase_master_win_count" = [ "Meta+I" ];
             "decrease_master_win_count" = [ "Meta+Shift+I" ];
@@ -93,18 +110,48 @@ in {
         files = {
           "baloofilerc"."Basic Settings"."Indexing-Enabled" = false;
 
+          "dolphinrc"."General"."ShowSpaceInfo" = false; # bottom right disk space indicator looks weird
+
           "kdeglobals"."KDE"."widgetStyle" = "Lightly";
+          "kdeglobals"."KDE"."SingleClick" = false;
 
           "kwinrc"."Desktops"."Number" = 4;
           "kwinrc"."Desktops"."Rows" = 1;
+
+          "kwinrc"."Effect-overview"."BorderActivate" = 7;
+          "kwinrc"."Effect-windowview"."BorderActivateAll" = 9;
+          "kwinrc"."TabBox"."TouchBorderActivate" = 6;
+          "kwinrc"."TouchEdges"."Bottom" = "ApplicationLauncher";
+
+          # Use Meta key to invoke Overview, à la Gnome
+          "kwinrc"."ModifierOnlyShortcuts"."Meta" = "org.kde.kglobalaccel,/component/kwin,org.kde.kglobalaccel.Component,invokeShortcut,Overview";
+
           "kwinrc"."NightColor"."Active" = true;
+
           "kwinrc"."Plugins"."bismuthEnabled" = true;
+          "kwinrc"."Plugins"."blurEnabled" = true;
+          "kwinrc"."Plugins"."diminactiveEnabled" = true;
+
+          "kwinrc"."MouseBindings"."CommandAllWheel" = "Previous/Next Desktop";
+
+          "kwinrc"."Windows"."ElectricBorderCooldown" = 400;
+          "kwinrc"."Windows"."ElectricBorderDelay" = 350;
+          "kwinrc"."Windows"."FocusPolicy" = "FocusFollowsMouse";
+          "kwinrc"."Windows"."NextFocusPrefersMouse" = true;
+
           "kwinrc"."org.kde.kdecoration2"."ButtonsOnRight" = "NHIAX";
+          # TODO: use ${pkgs.maliit}
+          "kwinrc"."Wayland"."InputMethod[$e]" = "/run/current-system/sw/share/applications/com.github.maliit.keyboard.desktop";
+          "kwinrc"."Wayland"."VirtualKeyboardEnabled" = true;
+          # Bismuth · Tiling
           "kwinrc"."Script-bismuth"."untileByDragging" = false;
           "kwinrc"."Script-bismuth"."maximizeSoleTile" = true;
           "kwinrc"."Script-bismuth"."enableFloatingLayout" = true;
-          "kwinrc"."Script-bismuth"."floatingClass" = "alacrittydropdown";
-          "kwinrc"."Script-bismuth"."ignoreClass" = "yakuake,spectacle,Conky,zoom,org.kde.polkit-kde-authentication-agent-1";
+          "kwinrc"."Script-bismuth"."floatingClass" = "alacrittydropdown,systemsettings,org.kde.plasma.emojier,spectacle,org.freedesktop.impl.portal.desktop.kde";
+
+          "kwinrc"."Script-bismuth"."floatingTitle" = "Color Picker";
+          "kwinrc"."Script-bismuth"."ignoreClass" = "yakuake,Conky,zoom,org.kde.polkit-kde-authentication-agent-1";
+          "kwinrc"."Script-bismuth"."ignoreTitle" = "Firefox — Sharing Indicator";
           "kwinrc"."Script-bismuth"."newWindowAsMaster" = true;
           "kwinrc"."Script-bismuth"."noTileBorder" = true;
           "kwinrc"."Script-bismuth"."screenGapBottom" = 15;
@@ -112,11 +159,6 @@ in {
           "kwinrc"."Script-bismuth"."screenGapRight" = 15;
           "kwinrc"."Script-bismuth"."screenGapTop" = 15;
           "kwinrc"."Script-bismuth"."tileLayoutGap" = 15;
-          # TODO: use ${pkgs.maliit}
-          # "kwinrc"."Wayland"."InputMethod[$e]" = "/run/current-system/sw/share/applications/com.github.maliit.keyboard.desktop";
-          # "kwinrc"."Wayland"."VirtualKeyboardEnabled" = true;
-          "kwinrc"."Windows"."FocusPolicy" = "FocusFollowsMouse";
-          "kwinrc"."ModifierOnlyShortcuts"."Meta" = "org.kde.kglobalaccel,/component/kwin,org.kde.kglobalaccel.Component,invokeShortcut,Overview";
 
           "kcminputrc"."Libinput.1386.914.Wacom Intuos Pro S Finger"."NaturalScroll" = true;
           "kcminputrc"."Libinput.1739.52804.MSFT0001:00 06CB:CE44 Touchpad"."ClickMethod" = 2;
@@ -124,12 +166,26 @@ in {
           "kcminputrc"."Libinput.1739.52804.MSFT0001:00 06CB:CE44 Touchpad"."TapToClick" = true;
 
           "ksmserverrc"."General"."loginMode" = "emptySession";
-          "ksmserverrc"."General"."shutdownType" = 2;
+          "ksmserverrc"."General"."shutdownType" = 2; # Preselect "Shutdown"
 
           "krunnerrc"."General"."FreeFloating" = true;
+          "krunnerrc"."Plugins"."appstreamEnabled" = false;
+          "krunnerrc"."Runners.Dictionary"."triggerWord" = "=";
+          "krunnerrc"."Runners.Kill Runner"."sorting" = 1;
+          "krunnerrc"."Runners.Kill Runner"."triggerWord" = "kill";
+          "krunnerrc"."Runners.Kill Runner"."useTriggerWord" = true;
+          "krunnerrc"."Runners.krunner_spellcheck"."requireTriggerWord" = true;
+          "krunnerrc"."Runners.krunner_spellcheck"."trigger" = "~";
+
+          "kxkbrc"."Layout"."DisplayNames" = "bé,";
+          "kxkbrc"."Layout"."LayoutList" = "fr,fr";
+          "kxkbrc"."Layout"."Use" = true;
+          "kxkbrc"."Layout"."VariantList" = "bepo,us";
 
           "plasmarc"."Wallpapers"."usersWallpapers" = toString ./wallpapers/nixos.png;
 
+          # Locale
+          # REVIEW: maybe setting it up through nix options is sufficient
           "plasma-localerc"."Formats"."LANG" = "en_US.UTF-8";
           "plasma-localerc"."Formats"."LC_ADDRESS" = "fr_FR.UTF-8";
           "plasma-localerc"."Formats"."LC_MEASUREMENT" = "fr_FR.UTF-8";

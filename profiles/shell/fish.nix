@@ -77,14 +77,14 @@
       };
 
       shellAliases = rec {
-        exa="exa --group-directories-first --git";
-        ls="${exa}";
-        sl="${exa}";
-        l="${exa} -blF";
-        ll="${exa} -abghilmu --icons";
-        llm="${ll} --sort=modified";
-        la="LC_COLLATE=C ${exa} -ablF";
-        tree="${exa} -T";
+        exa = "exa --group-directories-first --git";
+        ls = "${exa}";
+        sl = "${exa}";
+        l = "${exa} -blF";
+        ll = "${exa} -abghilmu --icons";
+        llm = "${ll} --sort=modified";
+        la = "LC_COLLATE=C ${exa} -ablF";
+        tree = "${exa} -T";
 
         cat = "bat";
         man = "batman";
@@ -129,6 +129,9 @@
       };
     };
 
-    home.sessionVariables = { DIRENV_LOG_FORMAT = ""; };
+    home.sessionVariables = {
+      DIRENV_LOG_FORMAT = "";
+      EXA_ICON_SPACING = "2";
+    };
   };
 }
