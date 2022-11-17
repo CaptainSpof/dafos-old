@@ -28,7 +28,7 @@ with lib;
         "browser.newtabpage.activity-stream.telemetry" = false;
         # Disable new tab tile ads & preload
         "browser.newtabpage.enhanced" = false;
-        "browser.newtabpage.introShown" = true;
+        "browser.newtabpage.introShown" = false;
         "browser.newtab.preload" = false;
         "browser.newtabpage.directory.ping" = "";
         "browser.newtabpage.directory.source" = "data:text/plain,{}";
@@ -53,11 +53,14 @@ with lib;
         "datareporting.healthreport.service.enabled" = false;
         "datareporting.policy.dataSubmissionEnabled" = false;
         "extensions.pocket.enabled" = false;
+        "svg.context-properties.content.enabled" = true;
       }
       # Allow to use Qt file picker
       // (mkIf (config.profiles.desktop.plasma.enable) {
         "widget.use-xdg-desktop-portal" = true;
         "widget.use-xdg-desktop-portal.file-picker" = 1;
+        "widget.use-xdg-desktop-portal.settings" = 1;
+        "widget.use-xdg-desktop-portal.location" = 1;
         "widget.use-xdg-desktop-portal.mime-handler" = 1;
       });
 
@@ -71,6 +74,7 @@ with lib;
           org-capture # TODO: setup
           simple-tab-groups
           tridactyl
+          user-agent-string-switcher
         ];
     };
 
