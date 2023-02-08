@@ -86,6 +86,7 @@
     hardware.logitech.enable = true;
 
     graphical = {
+      office.libreoffice.enable = true;
       krita.enable = true;
       audio = {
         enable = true;
