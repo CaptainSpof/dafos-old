@@ -28,6 +28,7 @@ with lib;
       psmisc
       rsync
       unzip
+      unrar
       usbutils
       uutils-coreutils
       wget2
@@ -93,12 +94,27 @@ with lib;
   };
 
   services = {
+    avahi = {
+      enable = true;
+      nssmdns = true;
+      publish = {
+        enable = true;
+        addresses = true;
+        domain = true;
+        hinfo = true;
+        userServices = true;
+        workstation = true;
+      };
+    };
     earlyoom = {
       enable = true;
       enableNotifications = true;
       freeMemThreshold = 5;
     };
-
+    samba = {
+      enable = true;
+      openFirewall = true;
+    };
     xserver = {
       layout = "fr";
       xkbVariant = "bepo";
