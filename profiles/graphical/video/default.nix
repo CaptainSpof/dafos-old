@@ -16,6 +16,11 @@ in
 
   config = mkIf cfg.enable {
 
+    boot.kernelModules =  [ (mkIf cfg.recording.enable "v4l2loopback")];
+    boot.extraModulePackages = [
+      (mkIf cfg.recording.enable config.boot.kernelPackages.v4l2loopback)
+    ];
+
     home-manager.users."${config.vars.username}" = {
 
       home.packages = with pkgs;
