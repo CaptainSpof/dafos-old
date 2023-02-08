@@ -26,6 +26,9 @@
         nrbs = "${nrb} switch";
         ndiff = "nix store diff-closures /nix/var/nix/profiles/(ls -r /nix/var/nix/profiles/ | grep -E 'system\-' | sed -n '2 p') /nix/var/nix/profiles/system";
 
+        # nu
+        nu = "nu -c";
+
         # rm
         rmf = "rm -rf";
 
