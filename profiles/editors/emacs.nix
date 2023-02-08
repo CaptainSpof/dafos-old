@@ -14,7 +14,7 @@ in {
         enable = true;
         # let's be reasonable for now, emacs 28 it is…
         # but the fancy new features!! I am not reasonable, hello again emacs 29.
-        package = (pkgs.emacsPgtkNativeComp.override {
+        package = (pkgs.emacsPgtk.override {
           withXwidgets = false;
         });
         extraPackages = (epkgs: with epkgs; [ vterm pdf-tools sqlite ]);

@@ -32,16 +32,21 @@ in {
       [
         # partition-manager
         ark
-        plasma-integration
-        xdg-desktop-portal-kde
+        gparted
+        kate
         lightly
-        # klassy
         maliit-keyboard # virtual keyboard (won't shut up, spamming dmessage)
+        plasma-integration
+        qbittorrent
+        skanlite # TODO: move to own module ?
+        xdg-desktop-portal-kde
       ] ++ (with libsForQt5; [
         bismuth
         # kpmcore
-        # kinfocenter
+        kinfocenter
         frameworkintegration
+        kio-extras
+        dolphin-plugins
       ]);
 
     home-manager.users."${config.vars.username}" = {

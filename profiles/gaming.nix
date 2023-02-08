@@ -8,7 +8,9 @@ in {
   };
   config = mkIf cfg.enable {
     environment.defaultPackages = with pkgs; [
+      dconf
       lutris
+      protontricks
     ];
     programs.steam.enable = true;
     hardware.steam-hardware.enable = true;
