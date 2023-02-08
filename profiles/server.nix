@@ -18,9 +18,9 @@
   services = {
     openssh = {
       enable = true;
-      passwordAuthentication = false;
+      settings.passwordAuthentication = false;
     };
-    tailscale.enable = true;
+    tailscale.enable = false;
   };
 
   users.users.root.openssh.authorizedKeys.keys = [ config.vars.sshPublicKey ];
