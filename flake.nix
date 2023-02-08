@@ -16,7 +16,7 @@
     home.url = "github:nix-community/home-manager";
     home.inputs.nixpkgs.follows = "nixos";
 
-    agenix.url = "github:yaxitech/ragenix";
+    agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixos";
 
     deploy.url = "github:serokell/deploy-rs";
@@ -52,7 +52,7 @@
         # REVIEW: checkout and setup nvfetcher
         overlays = [
           agenix.overlays.default
-          nvfetcher.overlay
+          nvfetcher.overlays.default
           emacs-overlay.overlays.default
           nur.overlay
           ./pkgs/default.nix
