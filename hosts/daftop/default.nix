@@ -19,13 +19,10 @@
     };
   };
 
-  # TODO: move out
-  services.acpid.enable = true;
-
   environment.systemPackages = with pkgs; [
     lm_sensors
     bitwarden
-    tpacpi-bat
+    google-chrome # TODO: remove when casting to chromecast works
   ];
 
   fileSystems = {
@@ -61,10 +58,32 @@
 
   powerManagement.cpuFreqGovernor = "performance";
 
+  systemd.services.samba-smbd.enable = true;
   services = {
     fwupd.enable = true;
     xserver.videoDrivers = [ "amdgpu" ];
+    printing.enable = true;
+    printing.drivers = [ pkgs.cnijfilter2 ];
   };
+
+# networking.firewall.extraCommands = ''
+#     # iptables -I INPUT -m pkttype --pkt-type multicast -j ACCEPT
+#     # iptables -A INPUT -m pkttype --pkt-type multicast -j ACCEPT
+#     # iptables -I INPUT -p udp -m udp --match multiport --dports 1900,5353 -j ACCEPT
+#     # Accept broadcast.
+#     ip46tables -A nixos-fw -m pkttype --pkt-type broadcast -j nixos-fw-accept
+#     # Accept multicast.
+#     ip46tables -A nixos-fw -m pkttype --pkt-type multicast -j nixos-fw-accept
+#   '';
+  # networking.firewall.allowedTCPPorts = [
+  #   8008 8009 8010
+  # ];
+  # networking.firewall.allowedUDPPorts = [
+  #   1900 # should be outbound
+  #   5353
+  #   43461
+  # ];
+  networking.firewall.allowedUDPPortRanges = [{ from = 32768; to = 61000; }];   # For Streaming to chromecast
 
   time.timeZone = "Europe/Paris";
 
@@ -75,12 +94,12 @@
     services.syncthing = {
       enable = true;
       folders = let syncFolderPath = "${config.vars.home}/${config.vars.syncFolder }"; in
-        {
-          "Audio" = { path = "${syncFolderPath}/Audio"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-          "Books" = { path = "${syncFolderPath}/Books"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-          "Org" = { path = "${syncFolderPath}/Org"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-          "Share" = { path = "${syncFolderPath}/Share"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-        };
+                {
+                  "Audio" = { path = "${syncFolderPath}/Audio"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                  "Books" = { path = "${syncFolderPath}/Books"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                  "Org" = { path = "${syncFolderPath}/Org"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                  "Share" = { path = "${syncFolderPath}/Share"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                };
     };
 
     hardware.logitech.enable = true;
