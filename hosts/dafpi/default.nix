@@ -6,56 +6,59 @@ in
 {
   imports = suites.server;
 
-# nixpkgs.overlays = [
-#   (final: super: {
-#     makeModulesClosure = x:
-#       super.makeModulesClosure (x // { allowMissing = true; });
-#   })
-# ];
+nixpkgs.overlays = [
+  (final: super: {
+    makeModulesClosure = x:
+      super.makeModulesClosure (x // { allowMissing = true; });
+  })
+];
 
-  boot = {
-    loader = {
-      grub.enable = false;
-      raspberryPi = {
-        enable = true;
-        version = 4;
-        # uboot.enable = true;
-      };
-      generic-extlinux-compatible.enable = lib.mkForce false; # incompatible with raspberryPi.enable = true
-    };
-    kernelParams = [ "cma=128M" ];
+boot = {
     kernelPackages = pkgs.linuxPackages_rpi4;
+    tmpOnTmpfs = true;
+    # initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
 
-    # kernelPackages = let
-    #   crossPkgs = import pkgs.path {
-    #     localSystem.system = "x86_64-linux";
-    #     crossSystem.system = "aarch64-linux";
-    #   };
-    # # in crossPkgs.linuxPackages_5_10;
-    # in crossPkgs.linuxPackages_rpi4;
+    initrd.availableKernelModules = [
+      "usbhid"
+      "usb_storage"
+      # Allows early (earlier) modesetting for the Raspberry Pi
+      "vc4"
+      "bcm2835_dma"
+      "i2c_bcm2835"
+      # Allows early (earlier) modesetting for Allwinner SoCs
+      "sun4i_drm"
+      "sun8i_drm_hdmi"
+      "sun8i_mixer"
+    ];
+
+    # ttyAMA0 is the serial console broken out to the GPIO
+    kernelParams = [
+      "8250.nr_uarts=1"
+      "console=ttyAMA0,115200"
+      "console=tty1"
+    ];
   };
 
+  boot.loader.grub.enable = false;
+  boot.loader.generic-extlinux-compatible.enable = true;
+
+  # These are the filesystems defined on the SD image.
   fileSystems = {
+    # "/boot" = {
+    #   device = "/dev/disk/by-label/FIRMWARE";
+    #   fsType = "vfat";
+    #   options = [ "nofail" ];
+    # };
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
       fsType = "ext4";
     };
-    "/data" = {
-      device = "/dev/disk/by-uuid/"; # TODO: setup disk
-      fsType = "ext4";
-      options = [ "nofail" "X-mount.mkdir" ];
-    };
   };
 
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 1024;
-      options = [ "nofail" ];
-    }
-  ];
+  # Prevent use of swapspace as much as possible
+  boot.kernel.sysctl = { "vm.swappiness" = 0; };
 
-  environment.systemPackages = with pkgs; [ kakoune git curl bottom ];
+  environment.systemPackages = with pkgs; [ git curl bottom ];
 
   services.journald.extraConfig = ''
     Storage = volatile
@@ -64,17 +67,9 @@ in
 
   networking = {
     useDHCP = false;
-    defaultGateway = {
-      address = "192.168.0.1";
-      interface = "eth0";
-    };
-    nameservers = [ "1.1.1.1" ];
-    interfaces.eth0 = {
-      ipv4.addresses = [
-        { address = ipv4; prefixLength = 24; }
-      ];
-      useDHCP = false;
-    };
+    firewall.enable = true;
+    networkmanager.enable = true;
+    wireless.enable = false;
   };
 
   services.avahi = {

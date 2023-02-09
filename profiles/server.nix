@@ -21,7 +21,16 @@
       settings.passwordAuthentication = false;
     };
     tailscale.enable = false;
+    xserver = {
+      layout = "fr";
+      xkbVariant = "bepo";
+      # TODO: find a way to replace caps lock with ctrl (not swapping). Also, single press should be esc.
+      xkbOptions = "caps:escape";
+    };
   };
+
+  # activate keyboard layout in console too
+  console.useXkbConfig = true;
 
   users.users.root.openssh.authorizedKeys.keys = [ config.vars.sshPublicKey ];
 }
