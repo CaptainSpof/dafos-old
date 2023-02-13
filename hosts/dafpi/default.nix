@@ -90,4 +90,6 @@ boot = {
   time.timeZone = "Europe/Paris";
 
   system.stateVersion = "22.11";
+
+  services.getty.autologinUser = pkgs.lib.mkForce config.vars.username;
 }
