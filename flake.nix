@@ -77,7 +77,7 @@
           suites = with builtins; let explodeAttrs = set: map (a: getAttr a set) (attrNames set); in
           with profiles; rec {
             base = (explodeAttrs core) ++ [ vars ];
-            server = [ profiles.server vars core.cachix ];
+            server = base ++ [ profiles.server ];
             desktop =
               base
               ++ (explodeAttrs shell)
@@ -88,6 +88,7 @@
               ++ (explodeAttrs editors)
               ++ (explodeAttrs services);
             laptop = desktop ++ [ profiles.laptop ];
+
           };
         };
 
