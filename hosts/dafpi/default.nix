@@ -1,4 +1,4 @@
-{ lib, pkgs, config, suites, ... }:
+{ lib, pkgs, config, suites, profiles, ... }:
 let
   dafpiRootKey = ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILGBJKhslXRQ4Bt8Nu3/YK799UsUpzpP6sDVkVw36nLR daf@dafpi'';
   ipv4 = "192.168.0.33"; # TODO: add dafpi address
@@ -83,6 +83,8 @@ boot = {
     };
   };
 
+  services.earlyoom.enable = pkgs.lib.mkForce false;
+
   users.users.root.openssh.authorizedKeys.keys = [ dafpiRootKey ];
 
   hardware.enableRedistributableFirmware = true;
@@ -92,4 +94,6 @@ boot = {
   system.stateVersion = "22.11";
 
   services.getty.autologinUser = pkgs.lib.mkForce config.vars.username;
+
+  profiles.services.home-assistant.enable = true;
 }

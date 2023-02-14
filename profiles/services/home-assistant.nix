@@ -40,7 +40,6 @@ in {
       extraPackages = python3Packages:
         with python3Packages; [
           pyipp
-          # pyforked-daapd
           aiohomekit
           spotipy
           pyatv
