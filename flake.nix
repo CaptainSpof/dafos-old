@@ -77,7 +77,9 @@
           suites = with builtins; let explodeAttrs = set: map (a: getAttr a set) (attrNames set); in
           with profiles; rec {
             base = (explodeAttrs core) ++ [ vars ];
-            server = base ++ [ profiles.server ];
+            server = base
+              ++ (explodeAttrs services)
+              ++ [ profiles.server ];
             desktop =
               base
               ++ (explodeAttrs shell)
