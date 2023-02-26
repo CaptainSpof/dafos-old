@@ -1,7 +1,7 @@
 { config, suites, profiles, pkgs, ... }:
 
 {
-  imports = suites.desktop;
+  imports = suites.desktop ++ [ profiles.desktop.plasma profiles.gaming ];
 
   boot = {
     binfmt.emulatedSystems = [ "aarch64-linux" ];
