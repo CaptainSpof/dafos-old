@@ -6,6 +6,12 @@ let
 in {
   options.profiles.services.home-assistant = {
     enable = mkOption { type = types.bool; default = false; };
+    serial = {
+      port = mkOption {
+        type = types.str;
+        default = "/dev/ttyACM0";
+      };
+    };
   };
 
   config = mkIf cfg.enable {
@@ -28,52 +34,33 @@ in {
           base_topic = "zigbee2mqtt";
         };
         serial = {
-          port = "/dev/ttyACM1";
+          port = cfg.serial.port;
           adapter = "deconz";
+        };
+        frontend = {
+          port = 8883;
         };
         advanced = { log_level = "debug"; };
       };
     };
-    services.home-assistant = {
-      enable = true;
-      package = pkgs.home-assistant;
-      extraPackages = python3Packages:
-        with python3Packages; [
-          pyipp
-          aiohomekit
-          spotipy
-          pyatv
+
+    virtualisation.oci-containers = {
+      backend = "podman";
+      containers.homeassistant = {
+        volumes = [ "home-assistant:/config" ];
+        environment.TZ = "Europe/Paris";
+        image = "ghcr.io/home-assistant/home-assistant:stable"; # Warning: if the tag does not change, the image will not be updated
+        extraOptions = [
+          "--cap-add=CAP_NET_RAW,CAP_NET_BIND_SERVICE"
+          "--network=host"
+          "--device=${cfg.serial.port}:${cfg.serial.port}"
         ];
-      extraComponents = [
-        # Components required to complete the onboarding
-        "freebox"
-        "met"
-        "mqtt"
-        "radio_browser"
-        "spotify"
-        "tradfri"
-        "wled"
-        "xiaomi"
-        "xiaomi_aqara"
-        "xiaomi_miio"
-        "yeelight"
-        "zha"
-      ];
-      config = {
-        # Includes dependencies for a basic setup
-        # https://www.home-assistant.io/integrations/default_config/
-        default_config = { };
-        "automation ui" = "!include automations.yaml";
-        "scene ui" = "!include scenes.yaml";
-        sensor = [{
-          platform = "time_date";
-          display_options = [ "date_time_iso" "date" ];
-        }];
       };
     };
-    # systemd.tmpfiles.rules = [
-    #   "C /var/lib/hass/custom_components/sonoff - - - - ./"
-    #   "Z /var/lib/hass/custom_components 770 hass hass - -"
-    # ];
+
+    networking.firewall = {
+      enable = true;
+      allowedTCPPorts = [ 80 443 8123 8883 ];
+    };
   };
 }
