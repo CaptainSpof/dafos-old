@@ -7,9 +7,9 @@
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     initrd = {
       availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "uas" "usb_storage" "sd_mod" ];
-      luks.devices."cryptroot".device = "/dev/disk/by-label/home"; # TODO: setup luks
+      kernelModules = [ "amdgpu" ];
     };
-    kernelModules = [ "kvm-amd" ];
+    kernelModules = [ "tcp_bbr" "kvm-amd" "uhid" ];
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       systemd-boot.enable = true;
@@ -28,10 +28,14 @@
       fsType = "ext4";
     };
     "/boot" = {
-      # device = "/dev/disk/by-uuid/EC81-FE28"; # TODO: setup disk device
+      device = "/dev/disk/by-label/boot";
       fsType = "vfat";
     };
   };
+
+  swapDevices = [
+    { device = "/dev/disk/by-label/swap"; }
+  ];
 
   hardware = {
     bluetooth = {
