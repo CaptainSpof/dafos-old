@@ -9,7 +9,6 @@ with lib;
 
     home.packages = with pkgs; [
       fx_cast_bridge
-      google-chrome
     ];
 
     programs.firefox = {

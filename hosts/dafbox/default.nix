@@ -49,7 +49,10 @@
   powerManagement.cpuFreqGovernor = "powersave";
 
   services = {
-    avahi.enable = true;
+    openssh = {
+      enable = true;
+      settings.passwordAuthentication = false;
+    };
     fwupd.enable = true; # REVIEW: fwupd available for dafbox?
   };
 

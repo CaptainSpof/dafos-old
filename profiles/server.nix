@@ -20,7 +20,7 @@
       enable = true;
       settings.passwordAuthentication = false;
     };
-    tailscale.enable = false;
+    tailscale.enable = true;
     xserver = {
       layout = "fr";
       xkbVariant = "bepo";
