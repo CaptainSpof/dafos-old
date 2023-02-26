@@ -79,6 +79,7 @@
             base = (explodeAttrs core) ++ [ vars ];
             server = base
               ++ (explodeAttrs services)
+              ++ (explodeAttrs shell)
               ++ [ profiles.server ];
             desktop =
               base

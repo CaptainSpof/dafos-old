@@ -44,11 +44,6 @@ boot = {
 
   # These are the filesystems defined on the SD image.
   fileSystems = {
-    # "/boot" = {
-    #   device = "/dev/disk/by-label/FIRMWARE";
-    #   fsType = "vfat";
-    #   options = [ "nofail" ];
-    # };
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
       fsType = "ext4";
