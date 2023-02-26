@@ -7,6 +7,11 @@ with lib;
 
   home-manager.users."${config.vars.username}" = {
 
+    home.packages = with pkgs; [
+      fx_cast_bridge
+      google-chrome
+    ];
+
     programs.firefox = {
       enable = true;
       profiles."${config.vars.username}" = {

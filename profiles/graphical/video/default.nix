@@ -25,7 +25,7 @@ in
 
       home.packages = with pkgs;
       (if cfg.mpv.enable then [
-        mpv-with-scripts
+        mpv
         mpvc
         (mkIf cfg.mpv.celluloid.enable
           celluloid)  # nice GTK GUI for mpv

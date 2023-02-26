@@ -72,8 +72,6 @@ with lib;
     };
   };
 
-  # location.provider = "geoclue2";
-
   programs = {
     fish.enable = true;
     mosh.enable = true;
@@ -97,6 +95,7 @@ with lib;
     avahi = {
       enable = true;
       nssmdns = true;
+      openFirewall = true;
       publish = {
         enable = true;
         addresses = true;

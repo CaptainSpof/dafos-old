@@ -21,10 +21,6 @@
     programs = {
       home-manager.enable = true;
       bottom.enable = true;
-      # broot = {
-      #   enable = true;
-      #   settings.modal = true;
-      # };
       bat = {
         enable = true;
         config = { theme = "zenburn"; pager = "less"; };
