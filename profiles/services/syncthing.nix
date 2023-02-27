@@ -7,7 +7,7 @@ let cfg = config.profiles.services.syncthing;
     dafbox.id        = "62Z4SAR-NEWLJR7-6HAGVEX-GWPNSTP-IOGWUF6-ODAQJ4Q-3BAVWTF-VDJGYA7";
     dafphone.id      = "2RY63N4-F3XSFO7-CUZRJD2-KEIM4QT-AAQINLH-QLLPJ2Z-CC7MN3A-J5YDQA3";
     daf-old-phone.id = "G3MQBMD-VN542WA-6V5EEGT-FBJXK5K-NREP2CU-WA4LFMV-NW3SIED-CRNNWQ2";
-    dafpi.id         = "6LSQT5W-CDVRC2U-OYU77MY-XQGUN7H-NWRMZPY-CJ6ETAZ-4XSHR2E-5ADGGQI";
+    dafpi.id         = "PCPPUHH-MV2UQIY-LWDVP5C-5LM4OWC-SN4E2LG-FVF6GPY-SSDP2X2-YRAMZAE";
 
 in {
   options.profiles.services.syncthing = {
