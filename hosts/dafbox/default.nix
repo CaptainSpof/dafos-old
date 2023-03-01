@@ -1,4 +1,4 @@
-{ config, suites, profiles, pkgs, ... }:
+{ config, self, suites, profiles, pkgs, ... }:
 
 {
   imports = suites.desktop ++ [ profiles.desktop.plasma profiles.gaming ];
@@ -97,4 +97,10 @@
   };
 
   time.timeZone = "Europe/Paris";
+
+  age.secrets.gh_key = {
+    file = "${self}/secrets/gh_key.age";
+    path = "${config.vars.home}/.ssh/gh@captainspof.pem";
+    owner = "${config.vars.username}";
+  };
 }
