@@ -75,6 +75,12 @@
 
   age.identityPaths = [ "${config.vars.home}/.ssh/daf@daftop.pem" ];
 
+  age.secrets.gh_key = {
+    file = "${self}/secrets/gh_key.age";
+    path = "${config.vars.home}/.ssh/gh@captainspof.pem";
+    owner = "${config.vars.username}";
+  };
+
   profiles = {
     tailscale.enable = true;
     services.espanso.enable = false;
