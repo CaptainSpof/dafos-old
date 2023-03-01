@@ -1,5 +1,8 @@
 { config, ... }:
 
+let
+  daftopRootKey = ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+WUE0u1TwkPF2yhetXKVPSpZrfxTW72hSzBcsL0Z8z root@daftop'';
+in
 {
   imports = [ ./core/tailscale.nix ];
 
@@ -18,7 +21,10 @@
   services = {
     openssh = {
       enable = true;
-      settings.passwordAuthentication = false;
+      settings = {
+        KbdInteractiveAuthentication = false;
+        PasswordAuthentication = false;
+      };
     };
     tailscale.enable = true;
     xserver = {
@@ -32,5 +38,5 @@
   # activate keyboard layout in console too
   console.useXkbConfig = true;
 
-  users.users.root.openssh.authorizedKeys.keys = [ config.vars.sshPublicKey ];
+  users.users.root.openssh.authorizedKeys.keys = [ config.vars.sshPublicKey daftopRootKey ];
 }

@@ -81,8 +81,6 @@ boot = {
 
   services.earlyoom.enable = pkgs.lib.mkForce false;
 
-  users.users.root.openssh.authorizedKeys.keys = [ daftopKey daftopRootKey ];
-
   hardware.enableRedistributableFirmware = true;
 
   time.timeZone = "Europe/Paris";
