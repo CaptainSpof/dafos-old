@@ -42,17 +42,21 @@
       enable = true;
       powerOnBoot = false;
     };
+    cpu.amd.updateMicrocode = true;
+    enableRedistributableFirmware = true;
     opengl.enable = true;
-    sensor.iio.enable = true; # REVIEW: sensor available for dafbox?
+    sensor.iio.enable = true;
   };
 
-  powerManagement.cpuFreqGovernor = "powersave";
+  powerManagement.cpuFreqGovernor = "performance";
 
-  services = {
-    openssh = {
-      enable = true;
-      settings.passwordAuthentication = false;
-    };
+  systemd.services.samba-smbd.enable = true;
+
+  services.xserver.videoDrivers = [ "amdgpu" ];
+
+  services.openssh = {
+    enable = true;
+    settings.passwordAuthentication = false;
   };
   services.fwupd.enable = true; # REVIEW: fwupd available for dafbox?
 
