@@ -66,15 +66,34 @@
     openFirewall = true;
   };
 
-  services.syncthing = {
-    enable = true;
-    folders = let syncFolderPath = "${config.vars.home}/${config.vars.syncFolder }"; in
-              {
-                "Audio" = { path = "${syncFolderPath}/Audio"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-                "Books" = { path = "${syncFolderPath}/Books"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-                "Org" = { path = "${syncFolderPath}/Org"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-                "Share" = { path = "${syncFolderPath}/Share"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-              };
+  profiles = {
+    tailscale.enable = true;
+    services.syncthing = {
+      enable = true;
+      folders = let syncFolderPath = "${config.vars.home}/${config.vars.syncFolder }"; in
+                {
+                  "Audio" = { path = "${syncFolderPath}/Audio"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                  "Books" = { path = "${syncFolderPath}/Books"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                  "Org" = { path = "${syncFolderPath}/Org"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                  "Share" = { path = "${syncFolderPath}/Share"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                };
+    };
+
+    hardware.logitech.enable = true;
+
+    graphical = {
+      office.libreoffice.enable = true;
+      krita.enable = true;
+      audio = {
+        enable = true;
+        spotify.enable = true;
+      };
+      video = {
+        enable = true;
+        recording.enable = true;
+        mpv.enable = true;
+      };
+    };
   };
 
   time.timeZone = "Europe/Paris";
