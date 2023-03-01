@@ -1,6 +1,7 @@
 { lib, pkgs, config, suites, profiles, ... }:
 let
-  dafpiRootKey = ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILGBJKhslXRQ4Bt8Nu3/YK799UsUpzpP6sDVkVw36nLR daf@dafpi'';
+  daftopKey = ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP7YCmRYdXWhNTGWWklNYrQD5gUBTFhvzNiis5oD1YwV daf@daftop'';
+  daftopRootKey = ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+WUE0u1TwkPF2yhetXKVPSpZrfxTW72hSzBcsL0Z8z root@daftop'';
   ipv4 = "192.168.0.33"; # TODO: add dafpi address
 in
 {
@@ -80,7 +81,7 @@ boot = {
 
   services.earlyoom.enable = pkgs.lib.mkForce false;
 
-  users.users.root.openssh.authorizedKeys.keys = [ dafpiRootKey ];
+  users.users.root.openssh.authorizedKeys.keys = [ daftopKey daftopRootKey ];
 
   hardware.enableRedistributableFirmware = true;
 
