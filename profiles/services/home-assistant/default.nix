@@ -47,7 +47,10 @@ in {
     virtualisation.oci-containers = {
       backend = "podman";
       containers.homeassistant = {
-        volumes = [ "home-assistant:/config" ];
+        volumes = [
+          "${./configuration.yaml}:/config/configuration.yaml"
+          "home-assistant:/config"
+        ];
         environment.TZ = "Europe/Paris";
         image = "ghcr.io/home-assistant/home-assistant:stable"; # Warning: if the tag does not change, the image will not be updated
         extraOptions = [
