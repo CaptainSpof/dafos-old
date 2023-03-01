@@ -53,7 +53,13 @@
       enable = true;
       settings.passwordAuthentication = false;
     };
-    fwupd.enable = true; # REVIEW: fwupd available for dafbox?
+  };
+  services.fwupd.enable = true; # REVIEW: fwupd available for dafbox?
+
+  services.jellyfin = {
+    enable = true;
+    user = "daf";
+    openFirewall = true;
   };
 
   services.syncthing = {

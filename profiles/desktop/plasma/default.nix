@@ -106,6 +106,7 @@ in {
             "Window to Next Screen" = ["Meta+Shift+Right" "Meta+Ctrl+Shift+R"];
             "Window to Previous Screen" = ["Meta+Shift+Left" "Meta+Ctrl+Shift+C"];
             "Window Fullscreen" = [ "Meta+Ctrl+F" ];
+            "Edit Tiles" = "Meta+Alt+T";
           };
 
           "org.kde.krunner.desktop"."_launch" = ["Meta+Space" "Alt+F2" "Search"];

@@ -73,8 +73,8 @@
         # misc
         q = "exit";
         mkdir = "mkdir -pv";
-        y = "xclip -selection clipboard -in";
-        p = "xclip -selection clipboard -out";
+        y = "wl-copy";
+        p = "wl-paste";
         pp = "pwd";
         "~~" = "cd $PRJ_ROOT";
       };

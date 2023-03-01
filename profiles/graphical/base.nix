@@ -4,6 +4,10 @@
   boot.extraModulePackages = [ config.boot.kernelPackages.ddcci-driver ];
   boot.kernelModules = [ "ddcci" ];
 
+  environment.defaultPackages = with pkgs; [
+    wl-clipboard
+  ];
+
   fonts.fonts = with pkgs; [
     dejavu_fonts
     ibm-plex
