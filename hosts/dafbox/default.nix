@@ -117,6 +117,11 @@ in
 
   time.timeZone = "Europe/Paris";
 
+  age.secrets.dafbox_key = {
+    file = "${self}/secrets/dafbox_key.age";
+    path = "${config.vars.home}/.ssh/daf@dafbox.pem";
+    owner = "${config.vars.username}";
+  };
   age.secrets.gh_key = {
     file = "${self}/secrets/gh_key.age";
     path = "${config.vars.home}/.ssh/gh@captainspof.pem";
