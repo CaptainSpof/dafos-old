@@ -1,5 +1,10 @@
 { config, self, suites, profiles, pkgs, ... }:
 
+let
+  daftopKey = ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP7YCmRYdXWhNTGWWklNYrQD5gUBTFhvzNiis5oD1YwV daf@daftop'';
+  daftopRootKey = ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+WUE0u1TwkPF2yhetXKVPSpZrfxTW72hSzBcsL0Z8z root@daftop'';
+  ipv4 = "192.168.0.31"; # TODO: add dafbox address
+in
 {
   imports = suites.desktop ++ [ profiles.desktop.plasma profiles.gaming ];
 
@@ -56,8 +61,22 @@
 
   services.openssh = {
     enable = true;
-    settings.passwordAuthentication = false;
+    startWhenNeeded = true;
+    settings = {
+      KbdInteractiveAuthentication = false;
+      PasswordAuthentication = false;
+    };
   };
+
+  users.users."${config.vars.username}".openssh.authorizedKeys.keys = [
+    config.vars.sshPublicKey
+    daftopRootKey
+  ];
+  users.users.root.openssh.authorizedKeys.keys = [
+    config.vars.sshPublicKey
+    daftopRootKey
+  ];
+
   services.fwupd.enable = true; # REVIEW: fwupd available for dafbox?
 
   services.jellyfin = {
