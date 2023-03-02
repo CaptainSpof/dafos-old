@@ -58,6 +58,15 @@
 
   powerManagement.cpuFreqGovernor = "performance";
 
+  services.openssh = {
+    enable = true;
+    startWhenNeeded = true;
+    settings = {
+      KbdInteractiveAuthentication = false;
+      PasswordAuthentication = false;
+    };
+  };
+
   systemd.services.samba-smbd.enable = true;
 
   services.fwupd.enable = true;
@@ -113,9 +122,21 @@
   };
 
   home-manager.users."${config.vars.username}" = {
-
     home.sessionVariables = {
       "GDK_SCALE" = 2;
+    };
+
+    programs.ssh = {
+      matchBlocks = {
+        "dafbox" = {
+          identityFile = "~/.ssh/daf@daftop.pem";
+          identitiesOnly = true;
+        };
+        "dafpi" = {
+          identityFile = "~/.ssh/daf@daftop.pem";
+          identitiesOnly = true;
+        };
+      };
     };
 
     home.file.".ssh/daf@daftop.pub".text = config.vars.sshPublicKey;
