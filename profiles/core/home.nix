@@ -32,7 +32,6 @@
         changeDirWidgetCommand = "fd --type d --hidden --exclude '.git'";
         fileWidgetCommand = defaultCommand;
         fileWidgetOptions = [ "--preview 'bat --color always {} 2> /dev/null | head -200; highlight -O ansi -l {} ^ /dev/null | head -200 || cat {} ^ /dev/null | head -200'" ];
-        historyWidgetOptions = [ "--tac" ];
       };
     };
   };

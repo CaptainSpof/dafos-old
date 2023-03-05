@@ -106,6 +106,8 @@
 
     hardware.logitech.enable = true;
 
+    shell.zellij.enable = true;
+
     graphical = {
       office.libreoffice.enable = true;
       krita.enable = true;

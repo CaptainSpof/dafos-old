@@ -5,11 +5,14 @@
     programs.fish = {
       enable = true;
       interactiveShellInit = ''
+        set fzf_history_opts "--bind=ctrl-r:toggle-sort,ctrl-z:ignore"
+        set -a fzf_history_opts "--nth=4.."
+        bind \cr _fzf_search_history # HACK: override CTRL+R binding to the one defined in fzf.fish plugin
         fish_default_key_bindings
       '';
       shellAbbrs = rec {
         # ls
-        lst = "ls -T";
+        lt2 = "ls -TL 2";
         lS = "ls -1";
 
         # bat
@@ -83,11 +86,12 @@
         exa = "exa --group-directories-first --git";
         ls = "${exa}";
         sl = "${exa}";
-        l = "${exa} -blF";
+        l = "${exa} -blF --icons";
         ll = "${exa} -abghilmu --icons";
         llm = "${ll} --sort=modified";
-        la = "LC_COLLATE=C ${exa} -ablF";
-        tree = "${exa} -T";
+        la = "LC_COLLATE=C ${exa} -ablF --icons";
+        lt = "${exa} --tree";
+        tree = "${exa} --tree";
 
         cat = "bat";
         man = "batman";
@@ -126,8 +130,8 @@
           src = pkgs.fetchFromGitHub {
             owner = "PatrickF1";
             repo = "fzf.fish";
-            rev = "096dc8fff16cfbf54333fb7a9910758e818e239d";
-            sha256 = "sha256-ZdHfIZNCtY36IppnufEIyHr+eqlvsIUOs0kY5I9Df6A=";
+            rev = "63c8f8e65761295da51029c5b6c9e601571837a1";
+            sha256 = "sha256-i9FcuQdmNlJnMWQp7myF3N0tMD/2I0CaMs/PlD8o1gw=";
           };
         }
       ];

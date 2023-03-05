@@ -53,6 +53,7 @@ in
     sensor.iio.enable = true;
   };
 
+
   powerManagement.cpuFreqGovernor = "performance";
 
   systemd.services.samba-smbd.enable = true;
