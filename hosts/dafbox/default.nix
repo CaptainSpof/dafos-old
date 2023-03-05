@@ -60,6 +60,12 @@ in
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
+  displayManager.sddm = {
+    enable = true;
+    autoLogin.enable = true;
+    autoLogin.user = config.vars.username;
+  };
+
   services.openssh = {
     enable = true;
     startWhenNeeded = true;
