@@ -22,6 +22,7 @@ in {
       home.packages = with pkgs; [
         gcc
         sqlite
+        nodePackages.mermaid-cli
         (aspellWithDicts (ds: with ds; [ en en-computers en-science fr ]))
       ];
     };

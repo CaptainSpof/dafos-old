@@ -6,6 +6,8 @@
   environment.defaultPackages = with pkgs; [
     ethtool
     nixpkgs-review
+    xdotool
+    xorg.xwininfo
   ];
 
   environment.sessionVariables = {

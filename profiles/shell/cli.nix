@@ -50,6 +50,9 @@
         enable = true;
         nix-direnv.enable = true;
       };
+      navi = {
+        enable = true;
+      };
 
       # a prompt theme, but I can explain why it's a mess (not really) �
       starship = {
