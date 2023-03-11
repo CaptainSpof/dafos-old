@@ -38,6 +38,7 @@ in {
         maliit-keyboard # virtual keyboard (won't shut up, spamming dmessage)
         plasma-integration
         qbittorrent
+        sddm-kcm # add a useless entry in systemsettings, but it felt empty without it
         skanlite # TODO: move to own module ?
         xdg-desktop-portal-kde
       ] ++ (with libsForQt5; [
