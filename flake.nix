@@ -22,6 +22,8 @@
     deploy.url = "github:serokell/deploy-rs";
     deploy.inputs.nixpkgs.follows = "nixos";
 
+    devenv.url = "github:cachix/devenv/latest";
+
     nur = {
       type = "github";
       owner = "nix-community";
@@ -39,12 +41,12 @@
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixos";
     plasma-manager.inputs.home-manager.follows = "home";
+
   };
 
-  outputs = { self, nixos, latest, nixos-hardware, digga, home, agenix, deploy, nixos-generators, nur, nvfetcher, emacs-overlay, plasma-manager } @ inputs:
+  outputs = { self, nixos, latest, nixos-hardware, digga, home, agenix, deploy, nixos-generators, nur, nvfetcher, emacs-overlay, plasma-manager, devenv } @ inputs:
     digga.lib.mkFlake {
       inherit self inputs;
-
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       channelsConfig.allowUnfree = true;
       channels.nixos = {
@@ -73,26 +75,29 @@
         imports = [ (digga.lib.importHosts ./hosts) ];
 
         importables = rec {
+          extraPackages = {
+            devenv = devenv.packages.x86_64-linux.devenv;
+          };
           profiles = digga.lib.rakeLeaves ./profiles;
           suites = with builtins; let explodeAttrs = set: map (a: getAttr a set) (attrNames set); in
-          with profiles; rec {
-            base = (explodeAttrs core) ++ [ vars ];
-            server = base
-              ++ (explodeAttrs services)
-              ++ (explodeAttrs shell)
-              ++ [ profiles.server ];
-            desktop =
-              base
-              ++ (explodeAttrs shell)
-              ++ (explodeAttrs graphical)
-              ++ (explodeAttrs pc)
-              ++ (explodeAttrs hardware)
-              ++ (explodeAttrs develop)
-              ++ (explodeAttrs editors)
-              ++ (explodeAttrs services);
-            laptop = desktop ++ [ profiles.laptop ];
+                                  with profiles; rec {
+                                    base = (explodeAttrs core) ++ [ vars ];
+                                    server = base
+                                             ++ (explodeAttrs services)
+                                             ++ (explodeAttrs shell)
+                                             ++ [ profiles.server ];
+                                    desktop =
+                                      base
+                                      ++ (explodeAttrs shell)
+                                      ++ (explodeAttrs graphical)
+                                      ++ (explodeAttrs pc)
+                                      ++ (explodeAttrs hardware)
+                                      ++ (explodeAttrs develop)
+                                      ++ (explodeAttrs editors)
+                                      ++ (explodeAttrs services);
+                                    laptop = desktop ++ [ profiles.laptop ];
 
-          };
+                                  };
         };
 
         hosts = {

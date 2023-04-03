@@ -1,4 +1,4 @@
-{ self, lib, config, suites, profiles, pkgs, ... }:
+{ self, lib, config, suites, profiles, extraPackages, pkgs, ... }:
 
 {
   imports = suites.laptop ++ [ profiles.desktop.plasma profiles.gaming ];
@@ -23,7 +23,57 @@
     lm_sensors
     bitwarden
     google-chrome # TODO: remove when casting to chromecast works
+    cifs-utils
+    # nomachine-client
+    # remmina
+    # krdc
+    kanata
+    extraPackages.devenv
   ];
+
+  # virtualisation.docker.enable = true;
+
+  # services.xrdp.enable = true;
+  # services.xrdp.openFirewall = true;
+
+  services.kanata.enable = true;
+  services.kanata.keyboards."bepo".devices = ["/dev/input/by-path/platform-i8042-serio-0-event-kbd"];
+
+  services.kanata.keyboards."bepo".config = ''
+  (deflocalkeys-linux
+    <    226
+  )
+
+  (defsrc
+    grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+    tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+    caps a    s    d    f    g    h    j    k    l    ;    '    ret
+    lsft <    z    x    c    v    b    n    m    ,    .    /    rsft
+    lctl lmet lalt           spc            ralt rctl)
+
+  (deflayer bepow
+    ;; swap è with w
+    _     _    _    _    _    _    _    _    _    _    _    _    _    _
+    _     _    _    _    _    ]    _    _    _    _    _    _    t    _
+    @cap  _    _    _    _    _    _    _    _    _    _    _    _
+    _     @nav _    _    _    _    _    _    _    _    _    _    @rsft
+    _     _    _              _              _    _)
+
+  (deflayer navigation
+    _     _    _    _    _    _    _    _    _    _    _    _    _    _
+    _     _    _    _    _    ]    _    _    _    _    _    _    t    _
+    @cap  _    _    _    _    _    _    _    _    _    _    _    _
+    _     @bep _    _    _    _    _    _    _    _    _    _    @rsft
+    _     _    _              _              _    _)
+
+  (defalias
+    ;; tap within 100ms for esc, hold more than 100ms for lctl
+    cap (tap-hold 100 100 esc lctl)
+    rsft (tap-hold 100 100 up rsft)
+    nav (layer-switch navigation)
+    bep (layer-switch bepow)
+  )
+'';
 
   fileSystems = {
     "/" = {
@@ -47,14 +97,25 @@
   hardware = {
     bluetooth = {
       enable = true;
-      powerOnBoot = false;
+      powerOnBoot = true;
     };
     cpu.amd.updateMicrocode = true;
     enableRedistributableFirmware = true;
-    opengl.enable = true;
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+      mesaPackage = pkgs.mesa_22;
+
+      extraPackages = with pkgs; [
+        amdvlk
+        libva
+        libvdpau-va-gl
+      ];
+    };
     sensor.iio.enable = true;
-    video.hidpi.enable = lib.mkDefault true;
   };
+  # fonts.optimizeForVeryHighDPI = lib.mkDefault true;
 
   powerManagement.cpuFreqGovernor = "performance";
 
@@ -71,6 +132,7 @@
 
   services.fwupd.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.dpi = 2; # FIXME: won't build without it
 
   # TODO: move out
   services.printing = {
@@ -99,7 +161,7 @@
                 {
                   "Audio" = { path = "${syncFolderPath}/Audio"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
                   "Books" = { path = "${syncFolderPath}/Books"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-                  "Org" = { path = "${syncFolderPath}/Org"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
+                  "Org"   = { path = "${syncFolderPath}/Org";   devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
                   "Share" = { path = "${syncFolderPath}/Share"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
                 };
     };
