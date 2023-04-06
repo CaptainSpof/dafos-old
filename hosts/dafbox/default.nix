@@ -9,6 +9,7 @@ in
   imports = suites.desktop ++ [ profiles.desktop.plasma profiles.gaming ];
 
   boot = {
+    supportedFilesystems = [ "cifs" ];
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     initrd = {
       availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "uas" "usb_storage" "sd_mod" ];
@@ -23,6 +24,15 @@ in
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    zfsUnstable
+    cifs-utils
+    libsForQt5.plasma-bigscreen
+    jellyfin-media-player
+    lvm2
+    drbd
+  ];
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/nixos";
@@ -36,20 +46,39 @@ in
       device = "/dev/disk/by-label/boot";
       fsType = "vfat";
     };
+    "/mnt/videos" = {
+      # device = "//freebox-server.local/Freebox/Vidéos"; # FIXME: name unknown: mount after avahi?
+      device = "//192.168.0.254/Freebox/Vidéos";
+      fsType = "cifs";
+      options = [ "guest" "uid=1000" ];
+    };
   };
+
+  systemd.automounts = [{
+    description = "Automount for Freebox";
+    where = "/mnt/videos";
+    wantedBy = [ "default.target" ];
+  }];
 
   swapDevices = [
     { device = "/dev/disk/by-label/swap"; }
   ];
 
   hardware = {
-    bluetooth = {
-      enable = true;
-      powerOnBoot = false;
-    };
+    bluetooth.enable = true;
     cpu.amd.updateMicrocode = true;
     enableRedistributableFirmware = true;
-    opengl.enable = true;
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+
+      extraPackages = with pkgs; [
+        amdvlk
+        libva
+        libvdpau-va-gl
+      ];
+    };
     sensor.iio.enable = true;
   };
 
@@ -60,11 +89,11 @@ in
 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  displayManager.sddm = {
-    enable = true;
-    autoLogin.enable = true;
-    autoLogin.user = config.vars.username;
-  };
+   services.xserver.displayManager = {
+     sddm.enable = true;
+     autoLogin.enable = true;
+     autoLogin.user = config.vars.username;
+   };
 
   services.openssh = {
     enable = true;
@@ -89,6 +118,34 @@ in
   services.jellyfin = {
     enable = true;
     user = "daf";
+    openFirewall = true;
+  };
+
+  services.sonarr = {
+    enable = true;
+    user = "daf";
+    openFirewall = true;
+  };
+
+  services.radarr = {
+    enable = true;
+    user = "daf";
+    openFirewall = true;
+  };
+
+  services.readarr = {
+    enable = true;
+    user = "daf";
+    openFirewall = true;
+  };
+
+  services.prowlarr = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  services.jellyseerr = {
+    enable = true;
     openFirewall = true;
   };
 
