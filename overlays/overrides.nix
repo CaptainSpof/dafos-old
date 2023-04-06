@@ -11,5 +11,6 @@ channels: final: prev: {
     nixpkgs-fmt
     qutebrowser
     rage
+    fishPlugins
     starship;
 }

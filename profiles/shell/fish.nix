@@ -4,6 +4,9 @@
   home-manager.users."${config.vars.username}" = {
     programs.fish = {
       enable = true;
+      shellInit = ''
+        starship init fish | source
+      '';
       interactiveShellInit = ''
         set fzf_history_opts "--bind=ctrl-r:toggle-sort,ctrl-z:ignore"
         set -a fzf_history_opts "--nth=4.."
@@ -24,8 +27,11 @@
         nf = "nix flake";
         nfu = "nix flake update";
         nepl = "nix repl '<nixpkgs>'";
-        nrb = ''nixos-rebuild --use-remote-sudo --flake "$(pwd)#$(hostname)"'';
-        nrbs = "${nrb} switch";
+        nr = ''nixos-rebuild --use-remote-sudo --flake "$(pwd)#$(hostname)"'';
+        nrb = "${nr} build";
+        nrs = "${nr} switch";
+        ncl = ''sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +10'';
+        ngc = ''nix store gc'';
         ndiff = "nix store diff-closures /nix/var/nix/profiles/(ls -r /nix/var/nix/profiles/ | grep -E 'system\-' | sed -n '2 p') /nix/var/nix/profiles/system";
 
         # nu
@@ -108,21 +114,15 @@
       plugins = [
         {
           name = "done";
-          src = pkgs.fetchFromGitHub {
-            owner = "franciscolourenco";
-            repo = "done";
-            rev = "1.16.5";
-            sha256 = "E0wveeDw1VzEH2kzn63q9hy1xkccfxQHBV2gVpu2IdQ=";
-          };
+          src = pkgs.fishPlugins.done;
         }
         {
           name = "puffer-fish";
-          src = pkgs.fetchFromGitHub {
-            owner = "nickeb96";
-            repo = "puffer-fish";
-            rev = "fd0a9c95da59512beffddb3df95e64221f894631";
-            sha256 = "sha256-aij48yQHeAKCoAD43rGhqW8X/qmEGGkg8B4jSeqjVU0=";
-          };
+          src = pkgs.fishPlugins.puffer;
+        }
+        {
+          name = "pisces";
+          src = pkgs.fishPlugins.pisces;
         }
         {
           name = "fzf.fish";
@@ -132,6 +132,14 @@
             rev = "63c8f8e65761295da51029c5b6c9e601571837a1";
             sha256 = "sha256-i9FcuQdmNlJnMWQp7myF3N0tMD/2I0CaMs/PlD8o1gw=";
           };
+        }
+        {
+          name = "colored-man-pages";
+          src = pkgs.fishPlugins.colored-man-pages;
+        }
+        {
+          name = "async-prompt";
+          src = pkgs.fishPlugins.async-prompt.src;
         }
       ];
     };
