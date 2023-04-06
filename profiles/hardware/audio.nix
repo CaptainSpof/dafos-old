@@ -9,6 +9,5 @@
     jack.enable = false;
     socketActivation = true;
     wireplumber.enable = true;
-    media-session.enable = false;
   };
 }
