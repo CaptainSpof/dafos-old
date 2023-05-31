@@ -10,7 +10,6 @@ in {
   config = mkIf cfg.enable {
     services.xserver.enable = true;
     services.xserver.displayManager.sddm.enable = true;
-    services.xserver.desktopManager.plasma5.supportDDC = false;
     services.xserver.displayManager.sddm.settings.Wayland.SessionDir =
       "${pkgs.plasma5Packages.plasma-workspace}/share/wayland-sessions";
     services.xserver.displayManager.defaultSession = "plasmawayland";
@@ -25,12 +24,12 @@ in {
     # security.polkit.enable = true;
 
     # FIXME: partition-manager can't find any devices
-    # programs.partition-manager.enable = true;
-    # services.dbus.packages = [ pkgs.libsForQt5.kpmcore ];
+    programs.partition-manager.enable = true;
+    services.dbus.packages = [ pkgs.libsForQt5.kpmcore ];
 
     environment.systemPackages = with pkgs;
       [
-        # partition-manager
+        partition-manager
         ark
         gparted
         kate
@@ -121,6 +120,8 @@ in {
 
           "kdeglobals"."KDE"."widgetStyle" = "Lightly";
           "kdeglobals"."KDE"."SingleClick" = false;
+
+          "kded5rc"."Module-bluedevil"."autoload" = true;
 
           "kwinrc"."Desktops"."Number" = 4;
           "kwinrc"."Desktops"."Rows" = 1;
