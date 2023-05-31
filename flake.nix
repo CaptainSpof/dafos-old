@@ -16,7 +16,8 @@
     home.url = "github:nix-community/home-manager";
     home.inputs.nixpkgs.follows = "nixos";
 
-    agenix.url = "github:ryantm/agenix";
+    # agenix.url = "github:ryantm/agenix";
+    agenix.url = "github:ryantm/agenix?rev=19bf5a20d835145e5f3fc8d61672eefee4c33450";
     agenix.inputs.nixpkgs.follows = "nixos";
 
     deploy.url = "github:serokell/deploy-rs";
@@ -41,17 +42,16 @@
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixos";
     plasma-manager.inputs.home-manager.follows = "home";
-
   };
 
   outputs = { self, nixos, latest, nixos-hardware, digga, home, agenix, deploy, nixos-generators, nur, nvfetcher, emacs-overlay, plasma-manager, devenv } @ inputs:
     digga.lib.mkFlake {
       inherit self inputs;
+
       supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
       channelsConfig.allowUnfree = true;
       channels.nixos = {
         imports = [ (digga.lib.importOverlays ./overlays) ];
-        # REVIEW: checkout and setup nvfetcher
         overlays = [
           agenix.overlays.default
           nvfetcher.overlays.default
@@ -75,6 +75,7 @@
         imports = [ (digga.lib.importHosts ./hosts) ];
 
         importables = rec {
+          # FIXME: not the sexiest way to import new packages
           extraPackages = {
             devenv = devenv.packages.x86_64-linux.devenv;
           };
@@ -117,7 +118,7 @@
 
       devshell = ./shell;
 
-      home.modules = [ inputs.plasma-manager.homeManagerModules.plasma-manager ];
+      home.modules = [ plasma-manager.homeManagerModules.plasma-manager ];
 
       homeConfigurations = digga.lib.mkHomeConfigurations self.nixosConfigurations;
 
