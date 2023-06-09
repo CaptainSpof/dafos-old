@@ -2,7 +2,7 @@
 
 with lib;
 {
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
 
   environment = {
     defaultPackages = with pkgs; [
@@ -23,7 +23,9 @@ with lib;
       lshw
       moreutils
       nmap
+      nix-du
       neovim
+      gnumake
       pciutils
       psmisc
       rsync
@@ -132,7 +134,11 @@ with lib;
   # activate keyboard layout in console too
   console.useXkbConfig = true;
 
-  systemd.extraConfig = "DefaultLimitNOFILE=1048576";
+  systemd.extraConfig = ''
+  DefaultLimitNOFILE=1048576"
+  DefaultTimeoutStopSec=10s
+'';
+
 
   system.stateVersion = lib.mkDefault "22.11";
 }
