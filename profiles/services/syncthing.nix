@@ -1,4 +1,4 @@
-{ config, options, pkgs, lib, ... }:
+{ config, lib, ... }:
 
 with lib;
 let cfg = config.profiles.services.syncthing;
@@ -6,7 +6,6 @@ let cfg = config.profiles.services.syncthing;
     daf-old-top.id   = "KQZGBVD-2EPBFMT-MPLIPPX-3BX5YZJ-TMKBFRF-ILXVVBR-RRJ35VN-T3ZYLQE";
     dafbox.id        = "62Z4SAR-NEWLJR7-6HAGVEX-GWPNSTP-IOGWUF6-ODAQJ4Q-3BAVWTF-VDJGYA7";
     dafphone.id      = "2RY63N4-F3XSFO7-CUZRJD2-KEIM4QT-AAQINLH-QLLPJ2Z-CC7MN3A-J5YDQA3";
-    daf-old-phone.id = "G3MQBMD-VN542WA-6V5EEGT-FBJXK5K-NREP2CU-WA4LFMV-NW3SIED-CRNNWQ2";
     dafpi.id         = "PCPPUHH-MV2UQIY-LWDVP5C-5LM4OWC-SN4E2LG-FVF6GPY-SSDP2X2-YRAMZAE";
 
 in {
@@ -51,8 +50,13 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.syncthing = rec {
+    services.syncthing = {
       enable = true;
+      openDefaultPorts = true;
+      user = config.vars.username;
+      configDir = "${config.vars.configHome}/syncthing";
+      dataDir = "${config.vars.home}/.local/share/syncthing";
+      folders = cfg.folders;
       devices = {
         inherit daftop;
         inherit daf-old-top;
@@ -60,11 +64,6 @@ in {
         inherit dafphone;
         inherit dafpi;
       };
-      openDefaultPorts = true;
-      user = config.vars.username;
-      configDir = "${config.vars.configHome}/syncthing";
-      dataDir = "${config.vars.home}/.local/share/syncthing";
-      folders = cfg.folders;
     };
   };
 }

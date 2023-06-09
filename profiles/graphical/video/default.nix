@@ -34,7 +34,7 @@ in
         (mkIf cfg.kdenlive.enable kdenlive)
         (mkIf cfg.recording.enable obs-studio)
         (mkIf cfg.vlc.enable vlc)
-        (mkIf cfg.youtube-dl.enable youtubeDL)
+        (mkIf cfg.youtube-dl.enable yt-dlp)
         ffmpeg
       ];
 

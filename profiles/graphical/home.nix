@@ -30,11 +30,6 @@
           exec = "${pkgs.imv}/bin/imv %u";
           categories = [ "Application" ];
         };
-        pdf = {
-          name = "PDF reader";
-          exec = "${pkgs.zathura}/bin/zathura %u";
-          categories = [ "Application" ];
-        };
         text = {
           name = "Text editor";
           exec = "emacs %u";

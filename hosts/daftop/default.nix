@@ -21,7 +21,7 @@
 
   environment.systemPackages = with pkgs; [
     lm_sensors
-    bitwarden
+    # bitwarden
     google-chrome # TODO: remove when casting to chromecast works
     cifs-utils
     # nomachine-client
@@ -105,7 +105,6 @@
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
-      mesaPackage = pkgs.mesa_22;
 
       extraPackages = with pkgs; [
         amdvlk
@@ -181,6 +180,7 @@
         enable = true;
         recording.enable = true;
         mpv.enable = true;
+        youtube-dl.enable = true;
       };
     };
   };

@@ -21,6 +21,7 @@
     iosevka-comfy.comfy-motion-duo
     iosevka-comfy.comfy-motion-fixed
     font-awesome
+    roboto-slab
     twitter-color-emoji
     (nerdfonts.override { fonts = [ "DejaVuSansMono" "Inconsolata" "Iosevka" ]; })
   ];
