@@ -12,8 +12,19 @@ in {
       programs.vscode = {
         enable = true;
         package = pkgs.vscode;
+        extensions = with pkgs.vscode-extensions; [
+          bbenoist.nix
+          eamodio.gitlens
+          alefragnani.project-manager
+          ms-python.python
+          # arrterian.nix-env-selector
+          mkhl.direnv
+        ];
+        enableUpdateCheck = false;
+        userSettings = {
+          "terminal.integrated.fontFamily" = "Hack";
+        };
       };
-
     };
   };
 }

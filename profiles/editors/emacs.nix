@@ -10,11 +10,10 @@ in {
     environment.sessionVariables.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
     home-manager.users."${config.vars.username}" = {
       services.emacs.enable = true;
+      services.emacs.package = pkgs.emacs-pgtk;
       programs.emacs = {
         enable = true;
-        # let's be reasonable for now, emacs 28 it is…
-        # but the fancy new features!! I am not reasonable, hello again emacs 29.
-        package = (pkgs.emacsPgtk.override {
+        package = (pkgs.emacs-pgtk.override {
           withXwidgets = false;
         });
         extraPackages = (epkgs: with epkgs; [ vterm pdf-tools sqlite ]);
@@ -23,6 +22,7 @@ in {
         gcc
         sqlite
         nodePackages.mermaid-cli
+        texlive.combined.scheme-full
         (aspellWithDicts (ds: with ds; [ en en-computers en-science fr ]))
       ];
     };
