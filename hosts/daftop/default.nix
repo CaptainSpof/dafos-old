@@ -1,4 +1,4 @@
-{ self, lib, config, suites, profiles, extraPackages, pkgs, ... }:
+{ self, config, suites, profiles, extraPackages, pkgs, inputs, ... }:
 
 {
   imports = suites.laptop ++ [ profiles.desktop.plasma profiles.gaming ];
@@ -29,6 +29,7 @@
     # krdc
     kanata
     extraPackages.devenv
+    # extraPackages.bazecor
   ];
 
   # virtualisation.docker.enable = true;

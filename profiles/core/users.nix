@@ -15,8 +15,8 @@
           ++ pkgs.lib.optional config.virtualisation.libvirtd.enable "libvirtd"
           ++ pkgs.lib.optional config.networking.networkmanager.enable "networkmanager"
           ++ pkgs.lib.optional config.programs.light.enable "video"
-          ++ pkgs.lib.optional config.services.pipewire.enable "audio"
-          ++ pkgs.lib.optional config.hardware.i2c.enable "i2c";
+          ++ pkgs.lib.optional config.services.pipewire.enable "audio";
+          # ++ pkgs.lib.optional config.hardware.i2c.enable "i2c";
       };
     };
   };

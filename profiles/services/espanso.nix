@@ -4,7 +4,7 @@ with lib;
 let cfg = config.profiles.services.espanso;
 in {
   options.profiles.services.espanso = {
-    enable = mkOption { type = types.bool; default = false; };
+    enable = mkOption { type = types.bool; default = true; };
   };
 
   config = mkIf cfg.enable {
@@ -42,21 +42,21 @@ in {
 
 
     environment.systemPackages = with pkgs; [
-      espanso
+      espanso-wayland
     ];
 
-    systemd.user.services.espanso = {
-      enable = true;
-      description = "Espanso daemon";
-      path = with pkgs; [ espanso coreutils libnotify xclip ];
-      serviceConfig = {
-        ExecStart = "${pkgs.espanso}/bin/espanso daemon";
-        Restart = "always";
-        RestartSec = "10";
-      };
-      after = [ "keyboard-setup.service" ];
-      wantedBy = [ "graphical-session.target" ];
-    };
+    # systemd.user.services.espanso = {
+    #   enable = true;
+    #   description = "Espanso daemon";
+    #   path = with pkgs; [ espanso coreutils libnotify xclip ];
+    #   serviceConfig = {
+    #     ExecStart = "${pkgs.espanso}/bin/espanso daemon";
+    #     Restart = "always";
+    #     RestartSec = "10";
+    #   };
+    #   after = [ "keyboard-setup.service" ];
+    #   wantedBy = [ "graphical-session.target" ];
+    # };
 
     # Config
 

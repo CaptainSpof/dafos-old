@@ -4,9 +4,9 @@ let
   inherit (pkgs)
     agenix
     cachix
-    editorconfig-checker
     mdbook
     nixUnstable
+    nixos-generators
     nixpkgs-fmt
     nvfetcher-bin
     ;
@@ -63,7 +63,7 @@ in
     (dafos cachix)
   ]
   ++ lib.optionals (pkgs.stdenv.hostPlatform.isLinux && !pkgs.stdenv.buildPlatform.isDarwin) [
-    (dafos inputs.nixos-generators.defaultPackage.${pkgs.system})
+    (dafos nixos-generators)
     (dafos inputs.deploy.packages.${pkgs.system}.deploy-rs)
   ]
   ;

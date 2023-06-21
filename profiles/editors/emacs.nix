@@ -19,6 +19,7 @@ in {
         extraPackages = (epkgs: with epkgs; [ vterm pdf-tools sqlite ]);
       };
       home.packages = with pkgs; [
+        djvu2pdf
         gcc
         sqlite
         nodePackages.mermaid-cli

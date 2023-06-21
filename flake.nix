@@ -25,6 +25,8 @@
 
     devenv.url = "github:cachix/devenv/latest";
 
+    bazecor-nix.url = "github:gvolpe/bazecor-nix";
+
     nur = {
       type = "github";
       owner = "nix-community";
@@ -44,7 +46,7 @@
     plasma-manager.inputs.home-manager.follows = "home";
   };
 
-  outputs = { self, nixos, latest, nixos-hardware, digga, home, agenix, deploy, nixos-generators, nur, nvfetcher, emacs-overlay, plasma-manager, devenv } @ inputs:
+  outputs = { self, nixos, latest, nixos-hardware, digga, home, agenix, deploy, nixos-generators, nur, nvfetcher, emacs-overlay, plasma-manager, devenv, bazecor-nix } @ inputs:
     digga.lib.mkFlake {
       inherit self inputs;
 
@@ -78,6 +80,7 @@
           # FIXME: not the sexiest way to import new packages
           extraPackages = {
             devenv = devenv.packages.x86_64-linux.devenv;
+            bazecor = bazecor-nix.packages.x86_64-linux.bazecor;
           };
           profiles = digga.lib.rakeLeaves ./profiles;
           suites = with builtins; let explodeAttrs = set: map (a: getAttr a set) (attrNames set); in
