@@ -56,13 +56,15 @@ in {
       user = config.vars.username;
       configDir = "${config.vars.configHome}/syncthing";
       dataDir = "${config.vars.home}/.local/share/syncthing";
-      folders = cfg.folders;
-      devices = {
-        inherit daftop;
-        inherit daf-old-top;
-        inherit dafbox;
-        inherit dafphone;
-        inherit dafpi;
+      settings = {
+        folders = cfg.folders;
+        devices = {
+          inherit daftop;
+          inherit daf-old-top;
+          inherit dafbox;
+          inherit dafphone;
+          inherit dafpi;
+        };
       };
     };
   };

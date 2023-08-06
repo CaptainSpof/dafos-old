@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 let cfg = config.profiles.desktop.plasma;
@@ -13,23 +13,21 @@ in {
     services.xserver.displayManager.sddm.settings.Wayland.SessionDir =
       "${pkgs.plasma5Packages.plasma-workspace}/share/wayland-sessions";
     services.xserver.displayManager.defaultSession = "plasmawayland";
-    services.xserver.desktopManager.plasma5.useQtScaling = true;
     services.xserver.desktopManager.plasma5.enable = true;
+    services.xserver.desktopManager.plasma5.useQtScaling = true;
     services.xserver.desktopManager.plasma5.runUsingSystemd = true;
 
     security.pam.services.kwallet = {
       name = "kwallet";
       enableKwallet = true;
     };
-    # security.polkit.enable = true;
 
-    # FIXME: partition-manager can't find any devices
-    programs.partition-manager.enable = true;
     services.dbus.packages = [ pkgs.libsForQt5.kpmcore ];
+
+    programs.partition-manager.enable = true;
 
     environment.systemPackages = with pkgs;
       [
-        partition-manager
         ark
         gparted
         kate
@@ -42,7 +40,6 @@ in {
         xdg-desktop-portal-kde
       ] ++ (with libsForQt5; [
         bismuth
-        # kpmcore
         kinfocenter
         frameworkintegration
         kio-extras
@@ -50,7 +47,6 @@ in {
       ]);
 
     home-manager.users."${config.vars.username}" = {
-
       programs.plasma = {
         enable = true;
 
@@ -62,35 +58,9 @@ in {
           "Alacritty.desktop"."New" = "Meta+Return";
           "alacrittydropdown.sh.desktop"."_launch" = "Meta+D";
 
-          bismuth = {
-            "toggle_window_floating" = "Meta+F";
-            "toggle_float_layout" = "Meta+Ctrl+Shift+F";
-            "toggle_monocle_layout" = "Meta+Ctrl+M";
-            "toggle_spread_layout" = "Meta+Ctrl+Shift+S";
-            "toggle_stair_layout" = "Meta+Ctrl+S";
-            "toggle_three_column_layout" = "Meta+Ctrl+C";
-            "toggle_tile_layout" = "Meta+Ctrl+T";
-
-            "rotate" = [ "Meta+O" ];
-            "increase_master_win_count" = [ "Meta+I" ];
-            "decrease_master_win_count" = [ "Meta+Shift+I" ];
-
-            "increase_window_height" = "Meta+Ctrl+S";
-            "decrease_window_height" = "Meta+Ctrl+T";
-            "increase_window_width" = "Meta+Ctrl+R";
-            "decrease_window_width" = "Meta+Ctrl+C";
-
-            "move_window_to_upper_pos" = "Meta+Shift+S";
-            "move_window_to_next_pos" = "Meta+Shift+R";
-            "move_window_to_prev_pos" = "Meta+Shift+C";
-            "move_window_to_bottom_pos" = "Meta+Shift+T";
-
-            "next_layout" = "Meta+/";
-            "prev_layout" = "Meta+Shift+/";
-          };
-          ksmserver = {
-            "Lock Session" = [ "Screensaver" "Meta+Ctrl+Alt+L" ];
-          };
+          
+          ksmserver."Lock Session" = [ "Screensaver" "Meta+Ctrl+Alt+L" ];
+          
 
           kwin = {
             "Switch Window Down" = "Meta+T";
@@ -107,13 +77,34 @@ in {
             "Window to Previous Screen" = ["Meta+Shift+Left" "Meta+Ctrl+Shift+C"];
             "Window Fullscreen" = [ "Meta+Ctrl+F" ];
             "Edit Tiles" = "Meta+Alt+T";
+
+            "PoloniumCycleLayouts" = "Meta+/";
+            "PoloniumFocusAbove" = "Meta+S";
+            "PoloniumFocusBelow" = "Meta+T";
+            "PoloniumFocusLeft" = "Meta+C";
+            "PoloniumFocusRight" = "Meta+R";
+            "PoloniumInsertAbove" = "";
+            "PoloniumInsertBelow" = "";
+            "PoloniumInsertLeft" = [ ];
+            "PoloniumInsertRight" = "";
+            "PoloniumRebuildLayout" = "Meta+Ctrl+Space";
+            "PoloniumResizeTileDown" = "Meta+Shift+T";
+            "PoloniumResizeTileLeft" = "Meta+Shift+C";
+            "PoloniumResizeTileRight" = "Meta+Shift+R";
+            "PoloniumResizeTileUp" = "Meta+Shift+S";
+            "PoloniumRetileWindow" = "Meta+Shift+Space";
+            "PoloniumSwapAbove" = "Meta+Ctrl+S";
+            "PoloniumSwapBelow" = "Meta+Ctrl+T";
+            "PoloniumSwapLeft" = "Meta+Ctrl+C";
+            "PoloniumSwapRight" = "Meta+Ctrl+R";
+
           };
 
           "org.kde.krunner.desktop"."_launch" = ["Meta+Space" "Alt+F2" "Search"];
         };
 
         # A low-level setting:
-        files = {
+        configFile = {
           "baloofilerc"."Basic Settings"."Indexing-Enabled" = false;
 
           "dolphinrc"."General"."ShowSpaceInfo" = false; # bottom right disk space indicator looks weird
@@ -152,21 +143,20 @@ in {
           "kwinrc"."Wayland"."InputMethod[$e]" = "/run/current-system/sw/share/applications/com.github.maliit.keyboard.desktop";
           "kwinrc"."Wayland"."VirtualKeyboardEnabled" = true;
           # Bismuth · Tiling
-          "kwinrc"."Script-bismuth"."untileByDragging" = false;
-          "kwinrc"."Script-bismuth"."maximizeSoleTile" = true;
-          "kwinrc"."Script-bismuth"."enableFloatingLayout" = true;
-          "kwinrc"."Script-bismuth"."floatingClass" = "alacrittydropdown,systemsettings,org.kde.plasma.emojier,spectacle,org.freedesktop.impl.portal.desktop.kde";
-
-          "kwinrc"."Script-bismuth"."floatingTitle" = "Color Picker";
-          "kwinrc"."Script-bismuth"."ignoreClass" = "yakuake,Conky,zoom,org.kde.polkit-kde-authentication-agent-1";
-          "kwinrc"."Script-bismuth"."ignoreTitle" = "Firefox — Sharing Indicator";
-          "kwinrc"."Script-bismuth"."newWindowAsMaster" = true;
-          "kwinrc"."Script-bismuth"."noTileBorder" = true;
-          "kwinrc"."Script-bismuth"."screenGapBottom" = 15;
-          "kwinrc"."Script-bismuth"."screenGapLeft" = 15;
-          "kwinrc"."Script-bismuth"."screenGapRight" = 15;
-          "kwinrc"."Script-bismuth"."screenGapTop" = 15;
-          "kwinrc"."Script-bismuth"."tileLayoutGap" = 15;
+          # "kwinrc"."Script-bismuth"."untileByDragging" = false;
+          # "kwinrc"."Script-bismuth"."maximizeSoleTile" = true;
+          # "kwinrc"."Script-bismuth"."enableFloatingLayout" = true;
+          # "kwinrc"."Script-bismuth"."floatingClass" = "alacrittydropdown,systemsettings,org.kde.plasma.emojier,spectacle,org.freedesktop.impl.portal.desktop.kde";
+          # "kwinrc"."Script-bismuth"."floatingTitle" = "Color Picker";
+          # "kwinrc"."Script-bismuth"."ignoreClass" = "yakuake,Conky,zoom,org.kde.polkit-kde-authentication-agent-1";
+          # "kwinrc"."Script-bismuth"."ignoreTitle" = "Firefox — Sharing Indicator";
+          # "kwinrc"."Script-bismuth"."newWindowAsMaster" = true;
+          # "kwinrc"."Script-bismuth"."noTileBorder" = true;
+          # "kwinrc"."Script-bismuth"."screenGapBottom" = 15;
+          # "kwinrc"."Script-bismuth"."screenGapLeft" = 15;
+          # "kwinrc"."Script-bismuth"."screenGapRight" = 15;
+          # "kwinrc"."Script-bismuth"."screenGapTop" = 15;
+          # "kwinrc"."Script-bismuth"."tileLayoutGap" = 15;
 
           "kcminputrc"."Libinput.1386.914.Wacom Intuos Pro S Finger"."NaturalScroll" = true;
           "kcminputrc"."Libinput.1739.52804.MSFT0001:00 06CB:CE44 Touchpad"."ClickMethod" = 2;

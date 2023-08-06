@@ -13,9 +13,9 @@ with lib;
 
     programs.firefox = {
       enable = true;
+      package = pkgs.firefox-beta;
       profiles."${config.vars.username}" = {
         settings = {
-
           # Your customized toolbar settings are stored in
           # 'browser.uiCustomization.state'. This tells firefox to sync it between
           # machines. WARNING: This may not work across OSes. Since I use NixOS on
@@ -61,6 +61,9 @@ with lib;
           "datareporting.policy.dataSubmissionEnabled" = false;
           "extensions.pocket.enabled" = false;
           "svg.context-properties.content.enabled" = true;
+          # Video decoding
+          "media.hardware-video-decoding.enabled" = true;
+          "media.hardware-video-decoding.force-enabled" = true;
         }
         # Allow to use Qt file picker
         // (mkIf (config.profiles.desktop.plasma.enable) {

@@ -5,7 +5,7 @@
     programs.alacritty = {
       enable = true;
       settings = {
-        shell = { program = "${pkgs.tmux}/bin/tmux"; };
+        shell = { program = "${pkgs.zellij}/bin/zellij"; };
         tabspace = 4;
         mouse = { hide_cursor_typing = true; };
         window = {

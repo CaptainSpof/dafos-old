@@ -17,6 +17,9 @@
         lt2 = "ls -TL 2";
         lS = "ls -1";
 
+        # dysk
+        lfs = "dysk";
+
         # bat
         bdiff = "batdiff";
         brg = "batgrep";

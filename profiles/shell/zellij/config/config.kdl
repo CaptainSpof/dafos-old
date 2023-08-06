@@ -1,40 +1,39 @@
 keybinds clear-defaults=true {
-    normal {
-        bind "Ctrl g" { SwitchToMode "locked"; }
-        bind "Ctrl p" { SwitchToMode "pane"; }
-        bind "Ctrl n" { SwitchToMode "resize"; }
-        bind "Ctrl t" { SwitchToMode "tab"; }
-        bind "Ctrl s" { SwitchToMode "scroll"; }
-        bind "Ctrl x" { SwitchToMode "session"; }
-        bind "Ctrl h" { SwitchToMode "move"; }
-        bind "Ctrl b" { SwitchToMode "tmux"; }
-        bind "Ctrl q" { Quit; }
-        bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+    shared {
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt r" "Alt Up" { MoveFocus "Up"; }
+
         bind "Alt =" { Resize "Increase"; }
         bind "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
+    }
+    normal {
+        bind "Ctrl b" { SwitchToMode "tmux"; }
+        bind "Alt w" { SwitchToMode "pane"; }
+        bind "Alt d" { ToggleFloatingPanes; SwitchToMode "normal"; }
+        bind "Alt n" { NewPane; }
+
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
+        bind "Alt /" { NextSwapLayout; }
     }
     locked {
         bind "Ctrl g" { SwitchToMode "normal"; }
     }
     pane {
-        bind "Ctrl g" { SwitchToMode "locked"; }
-        bind "Ctrl n" { SwitchToMode "resize"; }
-        bind "Ctrl t" { SwitchToMode "tab"; }
-        bind "Ctrl p" "Enter" "Space" "Esc" { SwitchToMode "normal"; }
-        bind "Ctrl s" { SwitchToMode "scroll"; }
-        bind "Ctrl x" { SwitchToMode "session"; }
-        bind "Ctrl h" { SwitchToMode "move"; }
-        bind "Ctrl b" { SwitchToMode "tmux"; }
-        bind "Ctrl q" { Quit; }
-        bind "h" "Left" { MoveFocus "Left"; }
-        bind "l" "Right" { MoveFocus "Right"; }
-        bind "j" "Down" { MoveFocus "Down"; }
-        bind "k" "Up" { MoveFocus "Up"; }
+        bind "Alt g" { SwitchToMode "locked"; }
+        bind "Alt n" { SwitchToMode "resize"; }
+        bind "Alt t" { SwitchToMode "tab"; }
+        bind "Alt p" "Enter" "Space" "Esc" { SwitchToMode "normal"; }
+        bind "Alt s" { SwitchToMode "scroll"; }
+        bind "Alt x" { SwitchToMode "session"; }
+        bind "Alt h" { SwitchToMode "move"; }
+        bind "Alt b" { SwitchToMode "tmux"; }
+        bind "Alt q" { Quit; }
         bind "p" { SwitchFocus; }
         bind "n" { NewPane; SwitchToMode "normal"; }
         bind "d" { NewPane "Down"; SwitchToMode "normal"; }
@@ -45,14 +44,7 @@ keybinds clear-defaults=true {
         bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
         bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "normal"; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
-        bind "c" { SwitchToMode "RenamePane"; PaneNameInput 0; }
+        bind "h" { SwitchToMode "RenamePane"; PaneNameInput 0; }
     }
     tab {
         bind "Ctrl g" { SwitchToMode "locked"; }
@@ -65,8 +57,8 @@ keybinds clear-defaults=true {
         bind "Ctrl x" { SwitchToMode "session"; }
         bind "r" { SwitchToMode "RenameTab"; TabNameInput 0; }
         bind "Ctrl q" { Quit; }
-        bind "h" "Left" "Up" "k" { GoToPreviousTab; }
-        bind "l" "Right" "Down" "j" { GoToNextTab; }
+        bind "c" "Left" "Up" "s" { GoToPreviousTab; }
+        bind "r" "Right" "Down" "t" { GoToNextTab; }
         bind "n" { NewTab; SwitchToMode "normal"; }
         bind "x" { CloseTab; SwitchToMode "normal"; }
         bind "s" { ToggleActiveSyncTab; SwitchToMode "normal"; }
@@ -81,13 +73,10 @@ keybinds clear-defaults=true {
         bind "9" { GoToTab 9; SwitchToMode "normal"; }
         bind "Tab" { ToggleTab; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
     }
     resize {
         bind "Ctrl g" { SwitchToMode "locked"; }
@@ -99,21 +88,18 @@ keybinds clear-defaults=true {
         bind "Ctrl h" { SwitchToMode "move"; }
         bind "Ctrl b" { SwitchToMode "tmux"; }
         bind "Ctrl q" { Quit; }
-        bind "h" "Left" { Resize "Left"; }
-        bind "j" "Down" { Resize "Down"; }
-        bind "k" "Up" { Resize "Up"; }
-        bind "l" "Right" { Resize "Right"; }
+        bind "c" "Left" { Resize "Left"; }
+        bind "t" "Down" { Resize "Down"; }
+        bind "s" "Up" { Resize "Up"; }
+        bind "r" "Right" { Resize "Right"; }
         bind "=" { Resize "Increase"; }
         bind "+" { Resize "Increase"; }
         bind "-" { Resize "Decrease"; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
     }
     move {
         bind "Ctrl g" { SwitchToMode "locked"; }
@@ -125,18 +111,15 @@ keybinds clear-defaults=true {
         bind "Ctrl x" { SwitchToMode "session"; }
         bind "Ctrl q" { Quit; }
         bind "n" "Tab" { MovePane; }
-        bind "h" "Left" { MovePane "Left"; }
-        bind "j" "Down" { MovePane "Down"; }
-        bind "k" "Up" { MovePane "Up"; }
-        bind "l" "Right" { MovePane "Right"; }
+        bind "c" "Left" { MovePane "Left"; }
+        bind "t" "Down" { MovePane "Down"; }
+        bind "s" "Up" { MovePane "Up"; }
+        bind "r" "Right" { MovePane "Right"; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
     }
     scroll {
         bind "e" { EditScrollback; SwitchToMode "normal"; }
@@ -157,13 +140,10 @@ keybinds clear-defaults=true {
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
         bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
     }
     session {
@@ -178,13 +158,10 @@ keybinds clear-defaults=true {
         bind "Ctrl q" { Quit; }
         bind "d" { Detach; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
     }
     search {
         bind "Ctrl s" "Space" "Enter" "Esc" { SwitchToMode "normal"; }
@@ -204,13 +181,10 @@ keybinds clear-defaults=true {
         bind "d" { HalfPageScrollDown; }
         bind "u" { HalfPageScrollUp; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
         bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
         bind "n" { Search "Down"; }
         bind "p" { Search "Up"; }
@@ -222,37 +196,28 @@ keybinds clear-defaults=true {
         bind "Enter" { SwitchToMode "search"; }
         bind "Ctrl c" "Esc" { SearchInput 27; SwitchToMode "scroll"; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
     }
     RenameTab {
         bind "Enter" "Ctrl c" "Esc" { SwitchToMode "normal"; }
         bind "Esc" { UndoRenameTab; SwitchToMode "tab"; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
     }
     RenamePane {
         bind "Enter" "Ctrl c" "Esc" { SwitchToMode "normal"; }
         bind "Esc" { UndoRenamePane; SwitchToMode "pane"; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
     }
     tmux {
         bind "Ctrl g" { SwitchToMode "locked"; }
@@ -281,14 +246,11 @@ keybinds clear-defaults=true {
         bind "j" { MoveFocus "Down"; SwitchToMode "normal"; }
         bind "k" { MoveFocus "Up"; SwitchToMode "normal"; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+        bind "Alt c" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt r" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt t" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt s" "Alt Up" { MoveFocus "Up"; }
         bind "o" { FocusNextPane; }
-        bind "Alt =" { Resize "Increase"; }
-        bind "Alt +" { Resize "Increase"; }
-        bind "Alt -" { Resize "Decrease"; }
         bind "d" { Detach; }
     }
 }
@@ -298,27 +260,27 @@ keybinds clear-defaults=true {
 // Options:
 //   - detach (Default)
 //   - quit
-//
+
 // on_force_close "quit"
 
 // Send a request for a simplified ui (without arrow fonts) to plugins
 // Options:
 //   - true
 //   - false (Default)
-//
+
 // simplified_ui true
 
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
-//
+
 // default_shell "fish"
 
 // Toggle between having pane frames around the panes
 // Options:
 //   - true (default)
 //   - false
-//
-pane_frames false
+
+// pane_frames false
 
 themes {
     dracula {
@@ -338,16 +300,17 @@ themes {
 
 // Choose the theme that is specified in the themes section.
 // Default: default
+
 theme "dracula"
 
 // The name of the default layout to load on startup
 // Default: "default"
-//
+
 // default_layout "compact"
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
-//
+
 // default_mode "locked"
 
 // Toggle enabling the mouse mode.
@@ -356,26 +319,25 @@ theme "dracula"
 // Options:
 //   - true (default)
 //   - false
-//
-// mouse_mode false
+
+mouse_mode true
 
 // Configure the scroll back buffer size
 // This is the number of lines zellij stores for each pane in the scroll back
 // buffer. Excess number of lines are discarded in a FIFO fashion.
 // Valid values: positive integers
 // Default value: 10000
-//
-// scroll_buffer_size 10000
+
+scroll_buffer_size 10000
 
 // Provide a command to execute when copying text. The text will be piped to
 // the stdin of the program to perform the copy. This can be used with
 // terminal emulators which do not support the OSC 52 ANSI control sequence
 // that will be used by default if this option is not set.
 // Examples:
-//
+
 // copy_command "xclip -selection clipboard" // x11
-// copy_command "wl-copy"                    // wayland
-// copy_command "pbcopy"                     // osx
+copy_command "wl-copy"                    // wayland
 
 // Choose the destination for copied text
 // Allows using the primary selection buffer (on x11/wayland) instead of the system clipboard.
@@ -383,8 +345,8 @@ theme "dracula"
 // Options:
 //   - system (default)
 //   - primary
-//
-// copy_clipboard "primary"
+
+copy_clipboard "primary"
 
 // Enable or disable automatic copy (and clear) of selection when releasing mouse
 // Default: true
@@ -393,15 +355,15 @@ theme "dracula"
 
 // Path to the default editor to use to edit pane scrollbuffer
 // Default: $EDITOR or $VISUAL
-//
+
 // scrollback_editor "/usr/bin/vim"
 
 // When attaching to an existing session with other users,
 // should the session be mirrored (true)
 // or should each user have their own cursor (false)
 // Default: false
-//
-// mirror_session true
+
+mirror_session true
 
 // The folder in which Zellij will look for layouts
 //
@@ -411,9 +373,9 @@ theme "dracula"
 //
 // theme_dir "/path/to/my/theme_dir"
 
-plugins {
-    tab-bar { path "tab-bar"; }
-    status-bar { path "status-bar"; }
-    strider { path "strider"; }
-    compact-bar { path "compact-bar"; }
-}
+// plugins {
+    // tab-bar { path "tab-bar"; }
+    // status-bar { path "status-bar"; }
+    // strider { path "strider"; }
+    // compact-bar { path "compact-bar"; }
+// }

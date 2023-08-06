@@ -120,14 +120,7 @@ with lib;
       layout = "fr";
       xkbVariant = "bepo";
       # TODO: find a way to replace caps lock with ctrl (not swapping). Also, single press should be esc.
-      xkbOptions = "caps:escape";
-      extraLayouts = {
-        fr-dvorak-bepo-intl = {
-          description = "bepo intl";
-          languages = [ "fr" ];
-          symbolsFile = ../hardware/xkb/symbols/fr-dvorak-bepo-intl;
-        };
-      };
+      # xkbOptions = "caps:escape";
     };
   };
 

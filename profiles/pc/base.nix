@@ -10,6 +10,8 @@
     xorg.xwininfo
   ];
 
+  security.polkit.enable = true;
+
   services.printing = {
     enable = true;
     drivers = [ pkgs.cnijfilter2 ];

@@ -1,14 +1,14 @@
 { config, pkgs, ... }:
 
 {
-  boot.extraModulePackages = [ config.boot.kernelPackages.ddcci-driver ];
-  boot.kernelModules = [ "ddcci" ];
+  # boot.extraModulePackages = [ config.boot.kernelPackages.ddcci-driver ];
+  # boot.kernelModules = [ "ddcci" ];
 
   environment.defaultPackages = with pkgs; [
     wl-clipboard
   ];
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     dejavu_fonts
     ibm-plex
     iosevka-comfy.comfy
