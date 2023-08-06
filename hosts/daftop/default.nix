@@ -1,17 +1,37 @@
-{ self, config, suites, profiles, extraPackages, pkgs, inputs, ... }:
+{ self, config, suites, profiles, extraPackages, pkgs, ... }:
 
 {
-  imports = suites.laptop ++ [ profiles.desktop.plasma profiles.gaming ];
+  imports = suites.laptop ++ [
+    # profiles
+    profiles.desktop.plasma profiles.gaming
+    # services
+    ./kanata.nix
+  ];
 
   boot = {
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     initrd = {
-      availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "uas" "usb_storage" "sd_mod" ];
+      availableKernelModules =
+        [ "xhci_pci" "thunderbolt" "nvme" "uas" "usb_storage" "sd_mod" ];
       kernelModules = [ "amdgpu" ];
-      luks.devices."crypted".device = "/dev/disk/by-uuid/2740b97b-a34c-43d5-9a5b-bb86521690ca";
+      luks.devices."crypted".device =
+        "/dev/disk/by-uuid/2740b97b-a34c-43d5-9a5b-bb86521690ca";
     };
     kernelModules = [ "tcp_bbr" "kvm-amd" "uhid" ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest;
+
+    # HACK: Revert to kernel 6.4.6 to fix an issue with the laptop keyboard
+    kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_4.override {
+      argsOverride = rec {
+        src = pkgs.fetchurl {
+          url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
+          sha256 = "sha256-4ezElu/Eiq8lpmB6S45S1XTW9norCqFmQIfTAdNRXqQ=";
+        };
+        version = "6.4.6";
+        modDirVersion = "6.4.6";
+      };
+    });
+
     loader = {
       systemd-boot.enable = true;
       systemd-boot.editor = false;
@@ -21,60 +41,13 @@
 
   environment.systemPackages = with pkgs; [
     lm_sensors
-    # bitwarden
     google-chrome # TODO: remove when casting to chromecast works
     cifs-utils
-    # nomachine-client
-    # remmina
-    # krdc
-    kanata
     extraPackages.devenv
     # extraPackages.bazecor
   ];
 
   # virtualisation.docker.enable = true;
-
-  # services.xrdp.enable = true;
-  # services.xrdp.openFirewall = true;
-
-  services.kanata.enable = true;
-  services.kanata.keyboards."bepo".devices = ["/dev/input/by-path/platform-i8042-serio-0-event-kbd"];
-
-  services.kanata.keyboards."bepo".config = ''
-  (deflocalkeys-linux
-    <    226
-  )
-
-  (defsrc
-    grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-    tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-    caps a    s    d    f    g    h    j    k    l    ;    '    ret
-    lsft <    z    x    c    v    b    n    m    ,    .    /    rsft
-    lctl lmet lalt           spc            ralt rctl)
-
-  (deflayer bepow
-    ;; swap è with w
-    _     _    _    _    _    _    _    _    _    _    _    _    _    _
-    _     _    _    _    _    ]    _    _    _    _    _    _    t    _
-    @cap  _    _    _    _    _    _    _    _    _    _    _    _
-    _     @nav _    _    _    _    _    _    _    _    _    _    @rsft
-    _     _    _              _              _    _)
-
-  (deflayer navigation
-    _     _    _    _    _    _    _    _    _    _    _    _    _    _
-    _     _    _    _    _    ]    _    _    _    _    _    _    t    _
-    @cap  _    _    _    _    _    _    _    _    _    _    _    _
-    _     @bep _    _    _    _    _    _    _    _    _    _    @rsft
-    _     _    _              _              _    _)
-
-  (defalias
-    ;; tap within 100ms for esc, hold more than 100ms for lctl
-    cap (tap-hold 100 100 esc lctl)
-    rsft (tap-hold 100 100 up rsft)
-    nav (layer-switch navigation)
-    bep (layer-switch bepow)
-  )
-'';
 
   fileSystems = {
     "/" = {
@@ -91,9 +64,7 @@
     };
   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-label/swap"; }
-  ];
+  swapDevices = [{ device = "/dev/disk/by-label/swap"; }];
 
   hardware = {
     bluetooth = {
@@ -107,17 +78,10 @@
       driSupport = true;
       driSupport32Bit = true;
 
-      extraPackages = with pkgs; [
-        amdvlk
-        libva
-        libvdpau-va-gl
-      ];
+      extraPackages = with pkgs; [ amdvlk libva libvdpau-va-gl ];
     };
     sensor.iio.enable = true;
   };
-  # fonts.optimizeForVeryHighDPI = lib.mkDefault true;
-
-  powerManagement.cpuFreqGovernor = "performance";
 
   services.openssh = {
     enable = true;
@@ -132,7 +96,6 @@
 
   services.fwupd.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
-  services.xserver.dpi = 2; # FIXME: won't build without it
 
   # TODO: move out
   services.printing = {
@@ -140,7 +103,10 @@
     drivers = [ pkgs.cnijfilter2 ];
   };
 
-  networking.firewall.allowedUDPPortRanges = [{ from = 32768; to = 61000; }];   # For Streaming to chromecast
+  networking.firewall.allowedUDPPortRanges = [{
+    from = 32768;
+    to = 61000;
+  }]; # For Streaming to chromecast
 
   time.timeZone = "Europe/Paris";
 
@@ -157,17 +123,31 @@
     services.espanso.enable = false;
     services.syncthing = {
       enable = true;
-      folders = let syncFolderPath = "${config.vars.home}/${config.vars.syncFolder }"; in
-                {
-                  "Audio" = { path = "${syncFolderPath}/Audio"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-                  "Books" = { path = "${syncFolderPath}/Books"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-                  "Org"   = { path = "${syncFolderPath}/Org";   devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-                  "Share" = { path = "${syncFolderPath}/Share"; devices = [ "dafbox" "daf-old-top" "dafphone" ]; };
-                };
+      folders =
+        let syncFolderPath = "${config.vars.home}/${config.vars.syncFolder}";
+        in {
+          "Audio" = {
+            path = "${syncFolderPath}/Audio";
+            devices = [ "dafbox" "daf-old-top" "dafphone" ];
+          };
+          "Books" = {
+            path = "${syncFolderPath}/Books";
+            devices = [ "dafbox" "daf-old-top" "dafphone" ];
+          };
+          "Org" = {
+            path = "${syncFolderPath}/Org";
+            devices = [ "dafbox" "daf-old-top" "dafphone" ];
+          };
+          "Share" = {
+            path = "${syncFolderPath}/Share";
+            devices = [ "dafbox" "daf-old-top" "dafphone" ];
+          };
+        };
     };
 
     hardware.logitech.enable = true;
 
+    shell.tmux.enable = false;
     shell.zellij.enable = true;
 
     graphical = {
@@ -187,10 +167,6 @@
   };
 
   home-manager.users."${config.vars.username}" = {
-    home.sessionVariables = {
-      "GDK_SCALE" = 2;
-    };
-
     programs.ssh = {
       matchBlocks = {
         "dafbox" = {
