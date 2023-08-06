@@ -10,6 +10,11 @@
     xorg.xwininfo
   ];
 
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.cnijfilter2 ];
+  };
+
   environment.sessionVariables = {
     # These are the defaults, and xdg.enable does set them, but due to load
     # order, they're not set before environment.variables are set, which could

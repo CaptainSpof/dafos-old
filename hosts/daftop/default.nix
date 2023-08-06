@@ -47,8 +47,6 @@
     # extraPackages.bazecor
   ];
 
-  # virtualisation.docker.enable = true;
-
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/nixos";
@@ -69,7 +67,7 @@
   hardware = {
     bluetooth = {
       enable = true;
-      powerOnBoot = true;
+      powerOnBoot = false;
     };
     cpu.amd.updateMicrocode = true;
     enableRedistributableFirmware = true;
@@ -96,12 +94,6 @@
 
   services.fwupd.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
-
-  # TODO: move out
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.cnijfilter2 ];
-  };
 
   networking.firewall.allowedUDPPortRanges = [{
     from = 32768;

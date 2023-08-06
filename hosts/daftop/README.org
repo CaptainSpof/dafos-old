@@ -3,9 +3,13 @@
 =daftop= is my 2in1 laptop, replacing my old… =daftop=, for which I need to find a
 new name.
 
+|-------+----------------------------------|
 | Model | Lenovo Yoga 7 Gen 7 AMD (14ARB7) |
+|-------+----------------------------------|
+|       |                                  |
 | CPU   | AMD Ryzen 7 6800U                |
 | RAM   | 32gb                             |
 | HDD   | 1tb NVME                         |
+|-      |                                  |
 
 ** TODO Installation
